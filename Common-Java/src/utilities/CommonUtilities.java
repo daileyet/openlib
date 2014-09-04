@@ -30,5 +30,12 @@ public class CommonUtilities {
 		}
 		return buffer.toString();
 	}
-
+	
+	
+	public static String format(Object arg,int width,int flag){
+		
+		return String.format("%"+flag+width+"d", arg);
+		
+	}
+	
 }
