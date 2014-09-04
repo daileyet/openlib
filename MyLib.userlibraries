@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="ActiveMQ" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/activemq-all-5.2.0.jar"/>
+    </library>
+    <library name="CommonLog" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/apache-commons-logging-1.1.1/commons-logging-1.1.1-sources.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/apache-commons-logging-1.1.1/commons-logging-1.1.1-javadoc.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/apache-commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+    </library>
+    <library name="Dom4j" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/dom4j-2.0.0-ALPHA-2.jar"/>
+    </library>
+    <library name="JavaMail" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/activation.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/mail.jar"/>
+    </library>
+    <library name="JDBCDriver" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/mysql-connector-java-5.1.14.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/sqljdbc.jar"/>
+    </library>
+    <library name="Jdom" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/jdom-1.1.2/xml-apis.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/jdom-1.1.2/xerces.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/jdom-1.1.2/xalan.jar"/>
+        <archive javadoc="jar:file:/R:/MyGit/openlib/Vendors/jdom-1.1.2/jdom-1.1.2-javadoc.jar!/" path="R:/MyGit/openlib/Vendors/jdom-1.1.2/jdom-1.1.2.jar" source="R:/MyGit/openlib/Vendors/jdom-1.1.2/jdom-1.1.2-sources.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/jdom-1.1.2/jaxen.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/jdom-1.1.2/ant.jar"/>
+    </library>
+    <library name="JGroup" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/jgroups-3.0.8.Final.jar"/>
+    </library>
+    <library name="JPA" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+    </library>
+    <library name="JSP" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/jsp-api.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/jstl-1.1.2.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/servlet-api.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/el-api.jar"/>
+    </library>
+    <library name="JUnit4" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/junit.jar"/>
+        <archive path="R:/MyGit/openlib/Vendors/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </library>
+    <library name="Log4j" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/apache-log4j-1.2.16/log4j-1.2.16.jar"/>
+    </library>
+    <library name="Nuiton-i18n" systemlibrary="false">
+        <archive javadoc="jar:file:/R:/MyGit/openlib/Vendors/nuiton-i18n-2.4.1/nuiton-i18n-2.4.1-javadoc.jar!/" path="R:/MyGit/openlib/Vendors/nuiton-i18n-2.4.1/nuiton-i18n-2.4.1.jar"/>
+    </library>
+    <library name="Odb" systemlibrary="false">
+        <archive path="R:/MyGit/openlib/Vendors/neodatis-odb-1.9.30.689.jar"/>
+    </library>
+</eclipse-userlibraries>
