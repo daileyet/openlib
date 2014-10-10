@@ -51,8 +51,11 @@ import utilities.Converter;
  */
 public class JPAReflectHandler implements IReflectHandler {
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * column name		
+	 * 1. from the name of annotation {@link javax.persistence.Column}
+	 * 2. if the name of annotation {@link javax.persistence.Column} is empty, use the attribute name
+	 * attribute name	
 	 * 
 	 * @see sql.entity.jpa.IReflectHandler#parseEntityClass(java.lang.Class)
 	 */
