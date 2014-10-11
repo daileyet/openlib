@@ -55,6 +55,10 @@ public class Checker {
 			}
 		}
 
+		/**
+		 * check the call object extends or implements from the paremeter class
+		 * @param clzz parent class
+		 */
 		public void isExtendsFrom(Class<?> clzz) {
 			if (clzz == null || requireObject.getClass() == null) {
 				throw new RuntimeException();
@@ -64,6 +68,9 @@ public class Checker {
 			}
 		}
 
+		/**
+		 * when the call object is File type, check the file exist in local
+		 */
 		public void needExist() {
 			if (requireObject instanceof File) {
 				if (!((File) requireObject).exists()) {

@@ -164,20 +164,22 @@ public class StandardSQLTemplate implements Template {
 
 		sb.append(" VALUES(");
 		for (ColumnAttribute ca : mapping) {
-			if (ca.getIdType() != IDType.AUTO) {
-				Object columnValue = null;
-				if (ca.getIdType() == IDType.MANUAL) {
-					columnValue = IdGenerator.getGenerator(this.entityType)
-							.generator();
-					// set entity id
-					ReflectEngine.propertyReflect(data, ca.getColumnName(),
-							columnValue);
-				} else {
-					columnValue = getPropertyValue(ca.getAttributeName());
-				}
-				sb.append(wrapColumnValue(columnValue));
-				sb.append(",");
-			}
+			if (ca.getIdType() == IDType.AUTO)// pass when the column is primary key and its generator strategy
+				continue;
+			Object columnValue = null;
+			//get column/attribute value from entity data
+			columnValue = getPropertyValue(ca.getAttributeName());
+			// set id column when id type is IDType.MANUAL and current value is empty or not setting.
+			if (ca.getIdType() == IDType.MANUAL && columnValue ==null ) {
+				columnValue = IdGenerator.getGenerator(this.entityType)
+						.generator();
+				// set entity id
+				ReflectEngine.propertyReflect(data, ca.getColumnName(),
+						columnValue);
+			} 
+			sb.append(wrapColumnValue(columnValue));
+			sb.append(",");
+
 		}
 		sb = sb.delete(sb.length() - 1, sb.length());
 		sb.append(")");
