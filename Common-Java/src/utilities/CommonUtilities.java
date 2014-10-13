@@ -38,4 +38,9 @@ public class CommonUtilities {
 		
 	}
 	
+	
+	public static String getCurrentInvokerMethod(){
+		return Thread.currentThread().getStackTrace()[2].getMethodName();
+	}
+	
 }

@@ -26,6 +26,10 @@
 package utilities;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import exception.CheckerNoPassException;
 
 /**
  * @author dailey dai
@@ -37,8 +41,19 @@ public class Checker {
 		return new Requirer<T>(requireObject);
 	}
 
+	
 	public static void main(String[] args) {
-		Checker.require(null).notNull();
+		Checker.require(null).notNull("test");
+	}
+	
+	public static boolean isArray(Object checkObj){
+		try{
+			Array.getLength(checkObj);
+			return true;
+		}catch(IllegalArgumentException e){
+			return false;
+		}
+		
 	}
 
 	public static class Requirer<T> {
@@ -50,9 +65,28 @@ public class Checker {
 		}
 
 		public void notNull(String... args) {
+			
 			if (requireObject == null) {
-				throw new NullPointerException(CommonUtilities.toString4Array(args));
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),CommonUtilities.toString4Array(args));
 			}
+		}
+		
+		
+		public void equalTo(T comparedObj){
+			if(requireObject==comparedObj){
+				return;
+			}
+			if(requireObject!=null && requireObject.equals(comparedObj)){
+				return;
+			}
+			if(Checker.isArray(requireObject) && Checker.isArray(comparedObj)){
+				if(Arrays.deepEquals((Object[])requireObject,(Object[]) comparedObj)){
+					return;
+				}
+			}
+			//TODO compare collection
+			
+			throw new CheckerNoPassException();
 		}
 
 		/**
@@ -61,9 +95,9 @@ public class Checker {
 		 */
 		public void isExtendsFrom(Class<?> clzz) {
 			if (clzz == null || requireObject.getClass() == null) {
-				throw new RuntimeException();
+				throw new CheckerNoPassException();
 			} else if (!clzz.isAssignableFrom(requireObject.getClass())) {
-				throw new RuntimeException(requireObject.getClass() + ":" + requireObject
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),requireObject.getClass() + ":" + requireObject
 						+ " need extends or implements " + clzz);
 			}
 		}
@@ -74,7 +108,7 @@ public class Checker {
 		public void needExist() {
 			if (requireObject instanceof File) {
 				if (!((File) requireObject).exists()) {
-					throw new IllegalArgumentException(requireObject + " does not exist.");
+					throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),requireObject + " does not exist.");
 				}
 			}
 		}
@@ -82,7 +116,7 @@ public class Checker {
 		public void inScope(int min, int max) {
 			notNull();
 			if (Integer.valueOf(requireObject.toString()) < min || Integer.valueOf(requireObject.toString()) > max) {
-				throw new IllegalArgumentException(requireObject + " not between " + min + " and " + max);
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),requireObject + " not between " + min + " and " + max);
 			}
 		}
 
