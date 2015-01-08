@@ -16,5 +16,6 @@ public @interface ResponseReturn {
 
 	String charset() default "UTF-8";
 
+	//TODO make a enumn type
 	String contentType() default "text/plain";
 }

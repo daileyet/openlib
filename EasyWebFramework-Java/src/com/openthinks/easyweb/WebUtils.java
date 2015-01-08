@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.openthinks.easyweb.annotation.process.WebProcesser;
 import com.openthinks.easyweb.annotation.process.objects.WebContainer;
 import com.openthinks.easyweb.annotation.process.objects.WebMethod;
 import com.openthinks.easyweb.context.RequestSuffix;
@@ -40,6 +41,12 @@ public class WebUtils {
 		return retval;
 	}
 
+	/**
+	 * Used for web path
+	 * @param fullPath
+	 * @param relativePath
+	 * @return
+	 */
 	public static String contactPath(String fullPath, String relativePath) {
 		// TODO check parameter can not be null
 		String rp = relativePath;
@@ -58,6 +65,35 @@ public class WebUtils {
 			}
 		}
 		return fp + "/" + rp;
+		
+	}
+	
+	
+	/**
+	 * Used for local file path
+	 * @param fullPath
+	 * @param relativePath
+	 * @return
+	 */
+	public static String contactFilePath(String fullPath, String relativePath) {
+		// TODO check parameter can not be null
+		String rp = relativePath;
+		while (rp.indexOf(WebProcesser.PATH_SPLITER) == 0) {
+			rp = rp.substring(1);
+		}
+		String fp = fullPath;
+		if (fp.lastIndexOf(WebProcesser.PATH_SPLITER) < 1) {
+			if (WebProcesser.PATH_SPLITER.equals(fp.trim())) {// Fix Bug for root path is "/" and
+										// controller's root path is default
+				fp = "";
+			}
+		} else {
+			while (fp.lastIndexOf(WebProcesser.PATH_SPLITER) == fp.length() - 1) {
+				fp = fp.substring(0, fp.length() - 1);
+			}
+		}
+		return fp + WebProcesser.PATH_SPLITER + rp;
+		
 	}
 
 	public static String convertToRequestMapingPath(String requestURI,

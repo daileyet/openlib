@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import com.openthinks.easyweb.WebUtils;
 import com.openthinks.easyweb.annotation.Mapping;
 import com.openthinks.easyweb.annotation.process.objects.WebContainer;
 import com.openthinks.easyweb.annotation.process.objects.WebController;
@@ -111,7 +112,7 @@ public class WebProcesser {
 				tempPack = tempPack.substring(0, all_index);
 			}
 			tempPack = tempPack.replace(".", PATH_SPLITER);
-			return (getWebClassDir() + tempPack);
+			return WebUtils.contactFilePath(getWebClassDir(),tempPack);
 		}
 	}
 
@@ -158,10 +159,12 @@ public class WebProcesser {
 				String classPackRootDir) {
 			String cfwp = classFileWholePath.toUpperCase();
 			String cprd = classPackRootDir.toUpperCase();
+			//fix file path not unified
+			cprd=WebUtils.contactFilePath(cprd, "");
 			int index = cfwp.indexOf(cprd);
 			// TODO check param1 contain param2
 			String className = classFileWholePath.substring(index
-					+ classPackRootDir.length());
+					+ cprd.length());
 			return className.replace(PATH_SPLITER, ".").replace(".class", "");
 		}
 
