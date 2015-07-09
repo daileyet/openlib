@@ -1,4 +1,4 @@
-package xyz.openthinks.vimixer.ui.resources;
+package xyz.openthinks.vimixer.resources;
 
 import javafx.scene.image.Image;
 
