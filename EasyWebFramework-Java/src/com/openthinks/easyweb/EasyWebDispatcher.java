@@ -30,5 +30,9 @@ public class EasyWebDispatcher extends HttpServlet {
 			throws ServletException, IOException {
 		dispatch(arg0, arg1);
 	}
-
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+	}
 }

@@ -42,7 +42,7 @@ public class CheckerNoPassException extends RuntimeException {
 
 	public CheckerNoPassException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+		super();
 	}
 
 	public CheckerNoPassException(String message, Throwable cause) {

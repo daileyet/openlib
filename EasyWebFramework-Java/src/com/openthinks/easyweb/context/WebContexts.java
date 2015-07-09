@@ -13,7 +13,7 @@ public class WebContexts {
 	protected static final String EASY_WEB_CONTEXT = "~!#$%@^&*()-+_=_EASY_WEB_CONTEXT_*$%&_+$#@!&(()%$#@@#^^)+~!@`1";
 	private static ServletContext servletContext;
 
-	public static void initServletContext(ServletContext servletContext) {
+	protected static void initServletContext(ServletContext servletContext) {
 		WebContexts.servletContext = servletContext;
 	}
 
