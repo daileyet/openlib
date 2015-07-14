@@ -1,16 +1,39 @@
 package xyz.openthinks.vimixer.ui.model;
 
+import java.io.File;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ViFile {
-	private IntegerProperty id;
-	private final StringProperty filePath; 
-	private  StringProperty status;
+
+	public static enum STATUS {
+		NOT_START, IN_PROCESSING, COMPLETED;
+		
+		public String toString() {
+			return name();
+		};
+	}
+
 	
+	private static AtomicInteger id_generator = new AtomicInteger(0);
+	private final IntegerProperty id;
+	private final StringProperty filePath;
+	private final ObjectProperty<STATUS> status;
+
 	public ViFile(String filePath) {
-		this.filePath =new SimpleStringProperty(filePath);
+		this.id = new SimpleIntegerProperty(id_generator.addAndGet(1));
+		this.filePath = new SimpleStringProperty(filePath);
+		this.status = new SimpleObjectProperty<STATUS>(STATUS.NOT_START);
+	}
+	
+	public ViFile(File file){
+		this(file.getAbsolutePath());
 	}
 
 	public final IntegerProperty idProperty() {
@@ -28,6 +51,10 @@ public class ViFile {
 	public final StringProperty filePathProperty() {
 		return this.filePath;
 	}
+	
+	public final File getFile(){
+		return new File(getFilePath());
+	}
 
 	public final java.lang.String getFilePath() {
 		return this.filePathProperty().get();
@@ -37,20 +64,18 @@ public class ViFile {
 		this.filePathProperty().set(filePath);
 	}
 
-	public final StringProperty statusProperty() {
+	public final ObjectProperty<STATUS> statusProperty() {
 		return this.status;
 	}
 
-	public final java.lang.String getStatus() {
+	public final xyz.openthinks.vimixer.ui.model.ViFile.STATUS getStatus() {
 		return this.statusProperty().get();
 	}
 
-	public final void setStatus(final java.lang.String status) {
+	public final void setStatus(
+			final xyz.openthinks.vimixer.ui.model.ViFile.STATUS status) {
 		this.statusProperty().set(status);
 	}
 
-	
-	
-	
-	
+
 }

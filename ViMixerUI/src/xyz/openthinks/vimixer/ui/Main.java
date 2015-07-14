@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -20,19 +21,21 @@ public class Main extends Application {
 	private BorderPane rootLayout;
 	private final ObservableList<ViFile> viFiles = FXCollections
 			.observableArrayList();
-	{
-		viFiles.add(new ViFile("D:\\2013-3-26.avi"));
-	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		this.primaryStage.getIcons().add(ResourceLoader.APP_ICON);
 		initRootLayout();
 		showMainFrame();
 	}
 
 	public final ObservableList<ViFile> getViFiles() {
 		return viFiles;
+	}
+	
+	public final Window getPrimaryStage() {
+		return primaryStage;
 	}
 
 	private void initRootLayout() {
@@ -70,4 +73,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 }

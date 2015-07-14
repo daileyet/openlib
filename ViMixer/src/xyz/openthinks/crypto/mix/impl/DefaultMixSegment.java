@@ -30,6 +30,10 @@ public class DefaultMixSegment implements MixSegmentor {
 	private Integer space;
 	private Long length;
 	
+	/**
+	 * The space(number of blocks) between current mixed block and next mixed block
+	 * @return space(block) between mixed blocks
+	 */
 	public int getSpace() {
 		if(space==null || space==0){
 			return SEGMENT_DEFAULT_SPACE;
@@ -37,6 +41,10 @@ public class DefaultMixSegment implements MixSegmentor {
 		return space;
 	}
 	
+	/**
+	 * The byte length of block
+	 * @return the block length
+	 */
 	public Long getLength() {
 		if(length==null || length==0){
 			return SEGMENT_DEFAULT_LENGTH;

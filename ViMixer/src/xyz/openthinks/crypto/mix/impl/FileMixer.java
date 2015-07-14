@@ -15,11 +15,11 @@ import xyz.openthinks.crypto.mix.MixTarget;
  *
  */
 public class FileMixer extends AbstractMixer {
-	private MixFile mixFile;
+	private MixTarget mixFile;
 	private MixStrategy mixStrategy;
 	private MixProcesser mixProcesser;
 	
-	public FileMixer(MixFile mixFile, MixStrategy mixStrategy,
+	public FileMixer(MixTarget mixFile, MixStrategy mixStrategy,
 			MixProcesser mixProcesser) {
 		super();
 		this.mixFile = mixFile;
@@ -27,7 +27,7 @@ public class FileMixer extends AbstractMixer {
 		this.mixProcesser = mixProcesser;
 	}
 
-	public FileMixer(MixFile mixFile, MixStrategy mixStrategy) {
+	public FileMixer(MixTarget mixFile, MixStrategy mixStrategy) {
 		this(mixFile,mixStrategy,DefaultMixProcesser.get());
 	}
 	

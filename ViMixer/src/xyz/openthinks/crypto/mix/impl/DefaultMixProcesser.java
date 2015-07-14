@@ -6,12 +6,12 @@ import xyz.openthinks.crypto.mix.MixBlock;
 import xyz.openthinks.crypto.mix.MixProcesser;
 
 public class DefaultMixProcesser implements MixProcesser {
-	public final static DefaultMixProcesser get() {
+	public final static MixProcesser get() {
 		return new DefaultMixProcesser();
 	}
 
-	private long startTime;
-	private long completeTime;
+	protected long startTime;
+	protected long completeTime;
 
 	@Override
 	public void processed(MixBlock mixBlock) {
