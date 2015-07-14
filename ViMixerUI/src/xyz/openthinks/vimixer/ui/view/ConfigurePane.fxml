@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</AnchorPane>
 
+<AnchorPane maxHeight="260.0" maxWidth="400.0" prefHeight="260.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField layoutX="121.0" layoutY="14.0" prefHeight="23.0" prefWidth="180.0" />
+      <Label layoutX="14.0" layoutY="18.0" text="Name" />
+      <Label layoutX="14.0" layoutY="54.0" text="Secret Key" />
+      <Label layoutX="14.0" layoutY="95.0" text="Segment Type" />
+      <PasswordField layoutX="121.0" layoutY="50.0" prefHeight="23.0" prefWidth="180.0" />
+      <ComboBox layoutX="121.0" layoutY="91.0" prefHeight="23.0" prefWidth="180.0" />
+      <Label layoutX="14.0" layoutY="137.0" text="Segment Space" />
+      <Label layoutX="14.0" layoutY="183.0" text="Segment Length" />
+      <Slider layoutX="121.0" layoutY="138.0" prefHeight="14.0" prefWidth="180.0" />
+      <Slider layoutX="121.0" layoutY="184.0" prefHeight="14.0" prefWidth="180.0" />
+   </children>
+</AnchorPane>
