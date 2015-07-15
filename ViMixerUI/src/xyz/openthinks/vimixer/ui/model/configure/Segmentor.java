@@ -2,35 +2,39 @@ package xyz.openthinks.vimixer.ui.model.configure;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-/**
- * @see SmartLinearSegmentor
- * @see SimpleLinearSegmentor
- * @author minjdai
- *
- */
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 @XmlSeeAlso({ SmartLinearSegmentor.class, SimpleLinearSegmentor.class })
 public abstract class Segmentor {
-	@Override
-	public String toString() {
-		return "Segmentor [type=" + type + "]";
-	}
-
-	private String type;
+	private StringProperty type;
 
 	public Segmentor() {
+		this.type = new SimpleStringProperty();
 	}
 
 	public Segmentor(String type) {
 		super();
-		this.type = type;
+		this.type = new SimpleStringProperty(type);
 	}
 
-	public String getType() {
-		return type;
+	public final StringProperty typeProperty() {
+		return this.type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public final java.lang.String getType() {
+		return this.typeProperty().get();
 	}
+
+	public final void setType(final java.lang.String type) {
+		this.typeProperty().set(type);
+	}
+
+	@Override
+	public String toString() {
+		return type.get() ;
+	}
+	
+	public abstract  void refresh(Segmentor otherSeg);
 
 }

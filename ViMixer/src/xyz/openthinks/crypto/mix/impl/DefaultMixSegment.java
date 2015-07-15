@@ -16,7 +16,7 @@ import xyz.openthinks.crypto.mix.Segment;
 public class DefaultMixSegment implements MixSegmentor {
 	
 	public static final DefaultMixSegment get(long...args){
-		if(args!=null && args.length>2)
+		if(args!=null && args.length>=2)
 			return new DefaultMixSegment((int)args[0],  args[1]);
 		else if(args!=null && args.length==1){
 			return new DefaultMixSegment((int)args[0]);
@@ -89,6 +89,11 @@ public class DefaultMixSegment implements MixSegmentor {
 			i=i+_space;
 		}
 		return segments.toArray(new Segment[0]);
+	}
+
+	@Override
+	public String toString() {
+		return "DefaultMixSegment [space=" + space + ", length=" + length + "]";
 	}
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -23,6 +24,8 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
+                  <Label layoutX="10.0" layoutY="15.0" text="Configure File" AnchorPane.leftAnchor="10.0" />
+                  <TextField fx:id="configPathField" editable="false" layoutX="108.0" layoutY="11.0" prefHeight="23.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />

@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -12,56 +17,83 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import javax.xml.bind.annotation.XmlTransient;
 /**
- * configure XML for Vimixer
- * 
+ * configure XML file entity
  * @author minjdai
  *
  */
 @XmlRootElement(name = "vimix")
 public class ViMixerConfigure {
+	private StringProperty configureName;
+	private StringProperty secretKey;
+	private ObjectProperty<Segmentor> segmentor;
+	private transient StringProperty storedFile;
 
-	private String configureName;
-
-	private String secretKey;
-
-	private Segmentor segmentor;
-
-	@XmlAttribute(name = "name")
-	public String getConfigureName() {
-		return configureName;
+	public ViMixerConfigure() {
+		this.configureName = new SimpleStringProperty();
+		this.secretKey = new SimpleStringProperty();
+		this.segmentor = new SimpleObjectProperty<Segmentor>();
+		this.storedFile = new SimpleStringProperty();
 	}
 
-	public void setConfigureName(String configureName) {
-		this.configureName = configureName;
-	}
-
-	public String getSecretKey() {
-		return secretKey;
-	}
-
-	public void setSecretKey(String secretKey) {
-		this.secretKey = secretKey;
+	public ViMixerConfigure(String configureName, String secretKey,
+			Segmentor segmentor) {
+		super();
+		this.configureName = new SimpleStringProperty(configureName);
+		this.secretKey = new SimpleStringProperty(secretKey);
+		this.segmentor = new SimpleObjectProperty<Segmentor>(segmentor);
+		this.storedFile = new SimpleStringProperty();
 	}
 	
-	@XmlElementRef
-	public Segmentor getSegmentor() {
-		return segmentor;
+	public final StringProperty configureNameProperty() {
+		return this.configureName;
 	}
 
-	public void setSegmentor(Segmentor segmentor) {
-		this.segmentor = segmentor;
+	@XmlAttribute(name = "name")
+	public final java.lang.String getConfigureName() {
+		return this.configureNameProperty().get();
 	}
+
+	public final void setConfigureName(final java.lang.String configureName) {
+		this.configureNameProperty().set(configureName);
+	}
+
+	public final StringProperty secretKeyProperty() {
+		return this.secretKey;
+	}
+
+	public final java.lang.String getSecretKey() {
+		return this.secretKeyProperty().get();
+	}
+
+	public final void setSecretKey(final java.lang.String secretKey) {
+		this.secretKeyProperty().set(secretKey);
+	}
+
+	public final ObjectProperty<Segmentor> segmentorProperty() {
+		return this.segmentor;
+	}
+
+	@XmlElementRef
+	public final Segmentor getSegmentor() {
+		return this.segmentorProperty().get();
+	}
+
+	public final void setSegmentor(
+			final Segmentor segmentor) {
+		this.segmentorProperty().set(segmentor);
+	}
+	
+	
 
 	@Override
 	public String toString() {
-		return "ViMixerConfigure [configureName=" + configureName
+		return "ViMixerConfigureP [configureName=" + configureName
 				+ ", secretKey=" + secretKey + ", segmentor=" + segmentor + "]";
 	}
 
 	/**
-	 * @throws JAXBException
 	 * @throws PropertyException
 	 * @throws FileNotFoundException
 	 */
@@ -78,5 +110,19 @@ public class ViMixerConfigure {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		return (ViMixerConfigure) unmarshaller.unmarshal(file);
 	}
+
+	public final StringProperty storedFileProperty() {
+		return this.storedFile;
+	}
+
+	@XmlTransient
+	public final java.lang.String getStoredFile() {
+		return this.storedFileProperty().get();
+	}
+
+	public final void setStoredFile(final java.lang.String storedFile) {
+		this.storedFileProperty().set(storedFile);
+	}
+
 
 }

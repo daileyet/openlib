@@ -19,10 +19,11 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Configure">
             <items>
-                  <MenuItem mnemonicParsing="false" text="View Current" />
+                  <MenuItem mnemonicParsing="false" onAction="#handViewCurrent" text="View Current" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="New" />
-              <MenuItem mnemonicParsing="false" text="Load From" />
+                  <MenuItem mnemonicParsing="false" onAction="#handSaveConfigure" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handSaveAsConfigure" text="Save As" />
+              <MenuItem mnemonicParsing="false" onAction="#handLoadConfigure" text="Load From" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
