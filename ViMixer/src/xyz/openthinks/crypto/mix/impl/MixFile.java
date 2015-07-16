@@ -69,9 +69,7 @@ public class MixFile implements MixTarget {
 	public void initial() {
 		if (randomAccessFile != null) {
 			this.free();
-			randomAccessFile = null;
 		}
-		
 		try {
 			randomAccessFile = new RandomAccessFile(file, "rw");
 		} catch (FileNotFoundException e) {
@@ -91,6 +89,8 @@ public class MixFile implements MixTarget {
 		if (randomAccessFile != null) {
 			try {
 				randomAccessFile.close();
+				System.out.println(randomAccessFile.getChannel().isOpen());
+				randomAccessFile=null;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -23,5 +23,6 @@
       <Slider fx:id="lengthSlider" blockIncrement="1.0" layoutX="121.0" layoutY="184.0" majorTickUnit="32.0" max="256.0" min="32.0" minorTickCount="1" prefHeight="14.0" prefWidth="180.0" showTickMarks="true" snapToTicks="true" value="32.0" />
       <Label fx:id="lengthValuelabel" layoutX="316.0" layoutY="183.0" text="Label" />
       <Label fx:id="spaceValueLabel" layoutX="316.0" layoutY="145.0" text="Label" />
+      <PasswordField fx:id="secretStoredField" disable="true" layoutX="125.0" layoutY="211.0" prefHeight="23.0" prefWidth="180.0" />
    </children>
 </AnchorPane>

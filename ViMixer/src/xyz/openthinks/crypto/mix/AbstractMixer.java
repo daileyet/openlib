@@ -62,9 +62,9 @@ public abstract class AbstractMixer implements Mixer {
 			}
 			mixProcesser.processed(block);
 		}
-		mixProcesser.completed();
-		executorService.shutdown();
 		mixTarget.free();
+		mixProcesser.completed();
+		executorService.shutdownNow();
 	}
 
 }

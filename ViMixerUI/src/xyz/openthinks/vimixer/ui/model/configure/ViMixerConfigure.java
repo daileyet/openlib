@@ -29,12 +29,14 @@ public class ViMixerConfigure {
 	private StringProperty secretKey;
 	private ObjectProperty<Segmentor> segmentor;
 	private transient StringProperty storedFile;
+	private transient StringProperty tempSecretKey;
 
 	public ViMixerConfigure() {
 		this.configureName = new SimpleStringProperty();
 		this.secretKey = new SimpleStringProperty();
 		this.segmentor = new SimpleObjectProperty<Segmentor>();
 		this.storedFile = new SimpleStringProperty();
+		this.tempSecretKey = new SimpleStringProperty();
 	}
 
 	public ViMixerConfigure(String configureName, String secretKey,
@@ -44,6 +46,7 @@ public class ViMixerConfigure {
 		this.secretKey = new SimpleStringProperty(secretKey);
 		this.segmentor = new SimpleObjectProperty<Segmentor>(segmentor);
 		this.storedFile = new SimpleStringProperty();
+		this.tempSecretKey = new SimpleStringProperty();
 	}
 	
 	public final StringProperty configureNameProperty() {
@@ -123,6 +126,20 @@ public class ViMixerConfigure {
 	public final void setStoredFile(final java.lang.String storedFile) {
 		this.storedFileProperty().set(storedFile);
 	}
+
+	public final StringProperty tempSecretKeyProperty() {
+		return this.tempSecretKey;
+	}
+
+	@XmlTransient
+	public final java.lang.String getTempSecretKey() {
+		return this.tempSecretKeyProperty().get();
+	}
+
+	public final void setTempSecretKey(final java.lang.String tempSecretKey) {
+		this.tempSecretKeyProperty().set(tempSecretKey);
+	}
+
 
 
 }

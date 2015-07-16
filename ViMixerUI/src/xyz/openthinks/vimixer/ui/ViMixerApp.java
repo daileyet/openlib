@@ -3,6 +3,8 @@ package xyz.openthinks.vimixer.ui;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -92,10 +94,9 @@ public class ViMixerApp extends Application {
 	public static class TransferData {
 		private final Application application;
 
-		private final ObservableList<ViFile> viFiles = FXCollections
-				.observableArrayList();
 		private final ViMixerConfigure configureXML = new ViMixerConfigure();
-
+		
+		private final ObjectProperty<ObservableList<ViFile>> viFiles = new SimpleObjectProperty<ObservableList<ViFile>>(FXCollections.observableArrayList());
 		private Stage primaryStage;
 
 		public TransferData(final Application application) {
@@ -110,7 +111,7 @@ public class ViMixerApp extends Application {
 			return application;
 		}
 
-		public ObservableList<ViFile> list() {
+		public ObjectProperty<ObservableList<ViFile>> listProperty() {
 			return viFiles;
 		}
 
@@ -121,7 +122,6 @@ public class ViMixerApp extends Application {
 		public Stage stage() {
 			return primaryStage;
 		}
-
 	}
 
 }

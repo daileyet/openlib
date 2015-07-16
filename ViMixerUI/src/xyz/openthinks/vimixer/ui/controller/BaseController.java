@@ -9,12 +9,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
-import javax.xml.bind.JAXBException;
-
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
+
+import javax.xml.bind.JAXBException;
+
 import xyz.openthinks.vimixer.ui.ViMixerApp;
 import xyz.openthinks.vimixer.ui.ViMixerApp.TransferData;
 import xyz.openthinks.vimixer.ui.model.ViFile;
@@ -29,7 +31,7 @@ import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
 public abstract class BaseController implements Initializable {
 	private static final String PREF_FILE = "filePath";
 	private TransferData transfer;
-
+	
 	public final void setTransfer(final TransferData transfer) {
 		this.beforeSetTransfer();
 		this.transfer = transfer;
@@ -50,9 +52,10 @@ public abstract class BaseController implements Initializable {
 		return transfer.app();
 	}
 
-	public final ObservableList<ViFile> list() {
-		return transfer.list();
+	public final ObjectProperty<ObservableList<ViFile>> listProperty(){
+		return transfer.listProperty();
 	}
+	
 
 	public final ViMixerConfigure configure() {
 		return transfer.configure();
@@ -93,6 +96,7 @@ public abstract class BaseController implements Initializable {
 				ViMixerConfigure loadCconfigure = ViMixerConfigure.unmarshal(file);
 				configure().setConfigureName(loadCconfigure.getConfigureName());
 				configure().setSecretKey(loadCconfigure.getSecretKey());
+				configure().setTempSecretKey(loadCconfigure.getSecretKey());
 				configure().setSegmentor(loadCconfigure.getSegmentor());
 				this.storeConfigurePath(file);
 			} catch (JAXBException e) {
@@ -114,4 +118,5 @@ public abstract class BaseController implements Initializable {
 			}
 		}
 	}
+	
 }
