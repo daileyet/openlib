@@ -10,12 +10,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import xyz.openthinks.vimixer.ui.controller.biz.ProcessMixBizThread;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFile.STATUS;
@@ -45,6 +50,11 @@ public class MainFrameController extends BaseController {
 	private MenuItem clearMenuItem;
 	@FXML
 	private MenuItem clearAllMenuItem;
+	@FXML
+	private FlowPane blockPane;
+	@FXML
+	private ScrollPane bottomScrollPane;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		idColumn.setCellValueFactory(cellData -> cellData.getValue()
@@ -65,7 +75,7 @@ public class MainFrameController extends BaseController {
 //		clearAllMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getItems()));
 //		resetMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
 //		clearMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
-		
+		blockPane.prefWidthProperty().bind(bottomScrollPane.widthProperty().add(-15));
 	}
 
 	@Override
@@ -89,6 +99,21 @@ public class MainFrameController extends BaseController {
 		if(this.configure().getSecretKey()==null || this.configure().getSecretKey().trim().isEmpty()){
 			runBtn.setDisable(true);
 		}
+		initialBlocksOverview();
+	}
+
+	private void initialBlocksOverview() {
+		int block_width = 10, block_height = 10;
+		int block_arc_width = 3, block_arc_height = 3;
+		int block_count = 1000;
+		Paint block_init_color = Color.ORANGE;
+		for (int i = 0; i < block_count; i++) {
+			Rectangle block = new Rectangle(block_width, block_height, block_init_color);
+			block.setArcWidth(block_arc_width);
+			block.setArcHeight(block_arc_height);
+			blockPane.getChildren().add(block);
+		}
+		
 	}
 
 	@FXML
