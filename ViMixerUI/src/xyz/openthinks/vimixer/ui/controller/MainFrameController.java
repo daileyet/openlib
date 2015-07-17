@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -54,6 +55,10 @@ public class MainFrameController extends BaseController {
 	@FXML
 	private ScrollPane bottomScrollPane;
 
+	public ObservableValue<Number> getBlockPaneWidthProperty(){
+		return vifileTable.widthProperty().add(-15);
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		idColumn.setCellValueFactory(cellData -> cellData.getValue()
@@ -76,7 +81,7 @@ public class MainFrameController extends BaseController {
 		// resetMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
 		// clearMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
 		blockPane.prefWidthProperty().bind(
-				bottomScrollPane.widthProperty().add(-15));
+				vifileTable.widthProperty().add(-15));
 	}
 
 	@Override
@@ -84,18 +89,6 @@ public class MainFrameController extends BaseController {
 		super.afterSetTransfer();
 		// bind table view item property to data model
 		vifileTable.itemsProperty().bindBidirectional(this.listProperty());
-		// vifileTable
-		// .selectionModelProperty()
-		// .get()
-		// .selectedItemProperty()
-		// .addListener(
-		// (observable, oldvalue, newvalue) -> {
-		// if (newvalue != null && newvalue != oldvalue) {
-		// BlockOverViewFigure.valueOf(newvalue)
-		// .with(MainFrameController.this)
-		// .targetOn(blockPane).push();
-		// }
-		// });
 		configPathField.textProperty().bind(
 				this.configure().storedFileProperty());
 		// bind run button disable or not

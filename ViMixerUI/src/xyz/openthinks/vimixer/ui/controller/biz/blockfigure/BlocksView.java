@@ -12,6 +12,7 @@ import xyz.openthinks.crypto.mix.MixBlocks;
 import xyz.openthinks.crypto.mix.MixTarget;
 import xyz.openthinks.crypto.mix.impl.MixFile;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
+import xyz.openthinks.vimixer.ui.controller.MainFrameController;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
 
@@ -48,6 +49,7 @@ public class BlocksView extends FlowPane {
 			}
 			initailized.set(true);
 			this.setCache(true);
+			this.prefWidthProperty().bind(((MainFrameController)controller).getBlockPaneWidthProperty());
 		} finally {
 			lock.unlock();
 		}

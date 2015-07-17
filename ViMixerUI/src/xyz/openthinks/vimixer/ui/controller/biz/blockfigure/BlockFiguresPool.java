@@ -12,10 +12,13 @@ import xyz.openthinks.vimixer.ui.model.ViFile;
  *
  */
 public final class BlockFiguresPool {
-	static ObservableMap<ViFile, BlocksView> caches = FXCollections
+	private final static ObservableMap<ViFile, BlocksView> caches = FXCollections
 			.observableHashMap();
+	private static BlockOverViewFigure currentFigure;
 
-	static BlocksView get(ViFile vifile) {
+	private final static LinkedBlockingQueue<BlockOverViewFigure> concurrentLinkedQueue = new LinkedBlockingQueue<BlockOverViewFigure>();
+	
+	public final static BlocksView get(ViFile vifile) {
 		if (caches.containsKey(vifile)) {
 			return caches.get(vifile);
 		} else {
@@ -24,20 +27,20 @@ public final class BlockFiguresPool {
 		}
 	}
 
-	static BlockOverViewFigure currentFigure;
-
-	static LinkedBlockingQueue<BlockOverViewFigure> concurrentLinkedQueue = new LinkedBlockingQueue<BlockOverViewFigure>();
-
-	public static void push(BlockOverViewFigure overViewFigure) {
+	public static final BlockOverViewFigure currentFigure(){
+		return currentFigure;
+	}
+	
+	public final static void push(BlockOverViewFigure overViewFigure) {
 		currentFigure = overViewFigure;
 		concurrentLinkedQueue.add(overViewFigure);
 	}
 
-	public static void active() {
+	public final static void active() {
 		new BlockFiguresPoolThread().start();
 	}
 
-	static class BlockFiguresPoolThread extends Thread {
+	private final static class BlockFiguresPoolThread extends Thread {
 		@Override
 		public void run() {
 			BlockOverViewFigure picked = null;

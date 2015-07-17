@@ -48,8 +48,6 @@ public class BlockOverViewFigure {
 					BlockOverViewFigure.this.blocksView.initial(
 							BlockOverViewFigure.this.observable,
 							BlockOverViewFigure.this.controller);
-					BlockOverViewFigure.this.blocksView.prefWidthProperty().bind(
-							BlockOverViewFigure.this.blockPane.widthProperty());
 				}
 				BlockOverViewFigure.this.blockPane.getChildren().clear();
 				BlockOverViewFigure.this.blockPane.getChildren().add(
@@ -97,7 +95,7 @@ public class BlockOverViewFigure {
 	}
 
 	public void push() {
-		if (!this.equals(BlockFiguresPool.currentFigure))
+		if (!this.equals(BlockFiguresPool.currentFigure()))
 			BlockFiguresPool.push(this);
 	}
 
