@@ -2,6 +2,7 @@ package xyz.openthinks.vimixer.ui.model.configure;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import xyz.openthinks.crypto.mix.MixSegmentor;
 import xyz.openthinks.crypto.mix.impl.DefaultMixSegment;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
@@ -14,7 +15,7 @@ public class SimpleLinearSegmentor extends Segmentor {
 
 	private IntegerProperty space;
 	private LongProperty length;
-
+	
 	public SimpleLinearSegmentor() {
 		this(0, 0);
 	}
@@ -63,5 +64,10 @@ public class SimpleLinearSegmentor extends Segmentor {
 			setLength(other.getLength());
 			setSpace(other.getSpace());
 		}
+	}
+
+	@Override
+	public MixSegmentor mixSegmentor() {
+		return DefaultMixSegment.get(space.get(), length.get());
 	}
 }

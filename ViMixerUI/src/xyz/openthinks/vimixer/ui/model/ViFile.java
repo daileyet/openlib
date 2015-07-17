@@ -77,5 +77,39 @@ public class ViFile {
 		this.statusProperty().set(status);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((filePath == null) ? 0 : filePath.get().hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ViFile other = (ViFile) obj;
+		if (filePath == null) {
+			if (other.filePath != null)
+				return false;
+		//compare the value in the property
+		} else if (!filePath.get().equals(other.filePath.get()))
+			return false;
+		return true;
+	}
+
+
 
 }

@@ -18,10 +18,9 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import xyz.openthinks.vimixer.ui.controller.biz.ProcessMixBizThread;
+import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockFiguresPool;
+import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFile.STATUS;
 import xyz.openthinks.vimixer.ui.model.ViFileSupportType;
@@ -54,7 +53,7 @@ public class MainFrameController extends BaseController {
 	private FlowPane blockPane;
 	@FXML
 	private ScrollPane bottomScrollPane;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		idColumn.setCellValueFactory(cellData -> cellData.getValue()
@@ -63,19 +62,21 @@ public class MainFrameController extends BaseController {
 				.filePathProperty());
 		statusColumn.setCellValueFactory(cellData -> cellData.getValue()
 				.statusProperty());
-		tableCtxmenu.setOnShowing((event)->{
-				boolean isShow = !vifileTable.getSelectionModel().getSelectedItems().isEmpty();
-				resetMenuItem.setVisible(isShow);
-				clearMenuItem.setVisible(isShow);
-				isShow = !vifileTable.getItems().isEmpty();
-				resetAllMenuItem.setVisible(isShow);
-				clearAllMenuItem.setVisible(isShow);
+		tableCtxmenu.setOnShowing((event) -> {
+			boolean isShow = !vifileTable.getSelectionModel()
+					.getSelectedItems().isEmpty();
+			resetMenuItem.setVisible(isShow);
+			clearMenuItem.setVisible(isShow);
+			isShow = !vifileTable.getItems().isEmpty();
+			resetAllMenuItem.setVisible(isShow);
+			clearAllMenuItem.setVisible(isShow);
 		});
-//		resetAllMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getItems()));
-//		clearAllMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getItems()));
-//		resetMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
-//		clearMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
-		blockPane.prefWidthProperty().bind(bottomScrollPane.widthProperty().add(-15));
+		// resetAllMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getItems()));
+		// clearAllMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getItems()));
+		// resetMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
+		// clearMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
+		blockPane.prefWidthProperty().bind(
+				bottomScrollPane.widthProperty().add(-15));
 	}
 
 	@Override
@@ -83,7 +84,18 @@ public class MainFrameController extends BaseController {
 		super.afterSetTransfer();
 		// bind table view item property to data model
 		vifileTable.itemsProperty().bindBidirectional(this.listProperty());
-		
+		// vifileTable
+		// .selectionModelProperty()
+		// .get()
+		// .selectedItemProperty()
+		// .addListener(
+		// (observable, oldvalue, newvalue) -> {
+		// if (newvalue != null && newvalue != oldvalue) {
+		// BlockOverViewFigure.valueOf(newvalue)
+		// .with(MainFrameController.this)
+		// .targetOn(blockPane).push();
+		// }
+		// });
 		configPathField.textProperty().bind(
 				this.configure().storedFileProperty());
 		// bind run button disable or not
@@ -91,29 +103,16 @@ public class MainFrameController extends BaseController {
 				.addListener((observable, oldvalue, newvalue) -> {
 					if (newvalue == null || newvalue.trim().isEmpty()) {
 						runBtn.setDisable(true);
-					}else{
+					} else {
 						runBtn.setDisable(false);
 					}
-		});
+				});
 		// initial run button disable or not
-		if(this.configure().getSecretKey()==null || this.configure().getSecretKey().trim().isEmpty()){
+		if (this.configure().getSecretKey() == null
+				|| this.configure().getSecretKey().trim().isEmpty()) {
 			runBtn.setDisable(true);
 		}
-		initialBlocksOverview();
-	}
-
-	private void initialBlocksOverview() {
-		int block_width = 10, block_height = 10;
-		int block_arc_width = 3, block_arc_height = 3;
-		int block_count = 1000;
-		Paint block_init_color = Color.ORANGE;
-		for (int i = 0; i < block_count; i++) {
-			Rectangle block = new Rectangle(block_width, block_height, block_init_color);
-			block.setArcWidth(block_arc_width);
-			block.setArcHeight(block_arc_height);
-			blockPane.getChildren().add(block);
-		}
-		
+		BlockFiguresPool.active();
 	}
 
 	@FXML
@@ -124,57 +123,74 @@ public class MainFrameController extends BaseController {
 						.getStatus());
 		new ProcessMixBizThread(this, filteredList).start();
 	}
-	
+
 	@FXML
-	private void handOnDragOver(DragEvent event){
-		Dragboard dragboard= event.getDragboard();
-		if(dragboard.hasFiles()){
+	private void handMouseClick() {
+		if (vifileTable.getSelectionModel().getSelectedItems().isEmpty())
+			;
+		else {
+			ViFile viFile = vifileTable.getSelectionModel().getSelectedItem();
+			BlockOverViewFigure.valueOf(viFile).with(MainFrameController.this)
+					.targetOn(blockPane).push();
+		}
+	}
+
+	@FXML
+	private void handOnDragOver(DragEvent event) {
+		Dragboard dragboard = event.getDragboard();
+		if (dragboard.hasFiles()) {
 			event.acceptTransferModes(TransferMode.LINK);
-		}else{
+		} else {
 			event.consume();
 		}
 	}
-	
+
 	@FXML
-	private void handDragDropped(DragEvent event){
-		Dragboard dragboard= event.getDragboard();
+	private void handDragDropped(DragEvent event) {
+		Dragboard dragboard = event.getDragboard();
 		boolean success = false;
-		if(dragboard.hasFiles()){
-			for(File file: dragboard.getFiles()){
-				if(file.isFile() && ViFileSupportType.accept(file)){
-					this.listProperty().get().add(new ViFile(file));
-					success=true;
+		if (dragboard.hasFiles()) {
+			for (File file : dragboard.getFiles()) {
+				if (file.isFile() && ViFileSupportType.accept(file)) {
+					ViFile viFile = new ViFile(file);
+					ObservableList<ViFile> viFiles = this.listProperty().get();
+					if (!viFiles.contains(viFile)) {
+						viFiles.add(viFile);
+						success = true;
+					}
 				}
 			}
 		}
 		event.setDropCompleted(success);
 		event.consume();
 	}
-	
+
 	@FXML
-	private void handResetAction(){
-		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel().getSelectedItems();
-		for(ViFile viFile:viFiles ){
+	private void handResetAction() {
+		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
+				.getSelectedItems();
+		for (ViFile viFile : viFiles) {
 			viFile.setStatus(STATUS.NOT_START);
 		}
 	}
-	
+
 	@FXML
-	private void handResetAllAction(){
+	private void handResetAllAction() {
 		ObservableList<ViFile> viFiles = this.listProperty().get();
-		for(ViFile viFile:viFiles ){
+		for (ViFile viFile : viFiles) {
 			viFile.setStatus(STATUS.NOT_START);
 		}
 	}
-	
+
 	@FXML
-	private void handClearAction(){
-		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel().getSelectedItems();
+	private void handClearAction() {
+		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
+				.getSelectedItems();
 		vifileTable.getItems().removeAll(viFiles);
 	}
-	
+
 	@FXML
-	private void handClearAllAction(){
+	private void handClearAllAction() {
 		this.listProperty().get().clear();
 	}
 

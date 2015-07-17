@@ -19,7 +19,7 @@ public final class MixFileBlock extends MixBlock {
 	private byte[] bytes = null;
 	
 	public MixFileBlock(Segment segment,MixFile mixFile) {
-		this.segment=segment;
+		super(segment);
 		this.mixFile=mixFile;
 	}
 	

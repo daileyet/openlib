@@ -6,6 +6,7 @@ package xyz.openthinks.crypto.mix.impl;
 import xyz.openthinks.crypto.DAESer;
 import xyz.openthinks.crypto.mix.IllegalMixStrategyException;
 import xyz.openthinks.crypto.mix.MixBlock;
+import xyz.openthinks.crypto.mix.MixBlockStatus;
 import xyz.openthinks.crypto.mix.MixStrategy;
 
 /**
@@ -50,7 +51,7 @@ public final class DefaultMixStrategy implements MixStrategy {
 		for(int i=0,j=blockBytes.length;i<j;i++){
 			blockBytes[i] = (byte) (blockBytes[i] ^ _encrypt[i]);
 		}
-
+		mixBlock.setStatus(MixBlockStatus.PROCESSED);
 	}
 
 }

@@ -26,7 +26,6 @@ public class MixFile implements MixTarget {
 	private File file;
 	private RandomAccessFile randomAccessFile;
 	private MixSegmentor mixSegment;
-	
 	public MixFile(File file) {
 		super();
 		this.file = file;

@@ -10,10 +10,10 @@ import xyz.openthinks.crypto.mix.impl.DefaultMixProcesser;
 import xyz.openthinks.crypto.mix.impl.DefaultMixStrategy;
 import xyz.openthinks.crypto.mix.impl.FileMixer;
 import xyz.openthinks.crypto.mix.impl.MixFile;
-import xyz.openthinks.crypto.mix.impl.SmartMixSegment;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFile.STATUS;
+import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
 
 /**
  * a new thread to process mixing file
@@ -38,20 +38,29 @@ public class ProcessMixBizThread extends Thread {
 
 	private void processBusiness() {
 		String secretKey = controller.configure().getSecretKey();
-		if(secretKey==null ||"".equals(secretKey.trim())){
-			Alert alert =new Alert(AlertType.ERROR);
-//			alert.setHeaderText("");
+		if (secretKey == null || "".equals(secretKey.trim())) {
+			Alert alert = new Alert(AlertType.ERROR);
+			// alert.setHeaderText("");
 			alert.setContentText("The secret key is empty, please configure it firstly!");
+			alert.initOwner(controller.stage());
+			alert.show();
+			return;
+		}
+		Segmentor segmentor = controller.configure().getSegmentor();
+		if (segmentor == null) {
+			Alert alert = new Alert(AlertType.ERROR);
+			// alert.setHeaderText("");
+			alert.setContentText("The segmentor is lost, please configure it firstly!");
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;
 		}
 		for (ViFile viFile : this.viFiles) {
 			MixTarget mixTarget = new MixFile(viFile.getFile(),
-					SmartMixSegment.get());
+					segmentor.mixSegmentor());
 			Mixer mixer = new FileMixer(mixTarget,
-					DefaultMixStrategy.get(secretKey),
-					new ViMixProcesser(viFile));
+					DefaultMixStrategy.get(secretKey), new ViMixProcesser(
+							viFile));
 			try {
 				mixer.mix();
 			} catch (InterruptedException e) {
