@@ -43,6 +43,7 @@ public class MixFile implements MixTarget {
 		
 	}
 
+	private MixBlocks cache;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -50,13 +51,17 @@ public class MixFile implements MixTarget {
 	 */
 	@Override
 	public MixBlocks blocks() {
+		if(cache!=null && cache.size()>0){
+			return cache;
+		}
 		long fileLength = file.length();
 		Segment[] segments = mixSegment.calcuate(fileLength);
 		List<MixBlock> list =new ArrayList<MixBlock>();
 		for(Segment segment :segments){
 			list.add(new MixFileBlock(segment,this));
 		}
-		return MixBlocks.create(list);
+		cache=MixBlocks.create(list);
+		return cache;
 	}
 
 	protected MappedByteBuffer getMappedByteBuffer(MixBlock mixblock) throws IOException{
@@ -88,7 +93,6 @@ public class MixFile implements MixTarget {
 		if (randomAccessFile != null) {
 			try {
 				randomAccessFile.close();
-				System.out.println(randomAccessFile.getChannel().isOpen());
 				randomAccessFile=null;
 			} catch (IOException e) {
 				e.printStackTrace();

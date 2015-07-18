@@ -1,13 +1,16 @@
 package xyz.openthinks.vimixer.ui.controller.biz.blockfigure;
 
+import static xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType.INITIALIZED_ALL;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import xyz.openthinks.crypto.mix.MixBlocks;
 import xyz.openthinks.crypto.mix.MixTarget;
 import xyz.openthinks.crypto.mix.impl.MixFile;
@@ -25,34 +28,57 @@ import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
 public class BlocksView extends FlowPane {
 	private int block_width = 10, block_height = 10;
 	private int block_arc_width = 3, block_arc_height = 3;
-	private Paint block_init_color = Color.ORANGE;
 	private AtomicBoolean initailized = new AtomicBoolean(false);
 	private Lock lock = new ReentrantLock();
-
+	// store the  mapping between block unit in file and block unit in UI
+	private ObservableMap<Long, Shape> map=FXCollections.observableHashMap();
+	
+	/**
+	 * check all the elements at the node are initialized or not
+	 * @return
+	 */
 	public boolean isInitialized() {
 		return initailized.get();
 	}
-
+	
+	/**
+	 * initial all block unit in this UI view
+	 * @param observable
+	 * @param controller
+	 */
 	public void initial(ViFile observable, BaseController controller) {
 		lock.lock();
 		try {
+			DynamicPaintType paintType = INITIALIZED_ALL;
+			paintType=observable.getStatus().paintType();
 			Segmentor segmentor = controller.configure().getSegmentor();
 			MixTarget mixTarget = new MixFile(observable.getFile(),
 					segmentor.mixSegmentor());
 			MixBlocks mixBlocks = mixTarget.blocks();
 			for (int i = 0; i < mixBlocks.size(); i++) {
 				Rectangle ret = new Rectangle(block_width, block_height,
-						block_init_color);
+						paintType.color());
 				ret.setArcWidth(block_arc_width);
 				ret.setArcHeight(block_arc_height);
 				this.getChildren().add(ret);
+				map.put(mixBlocks.get(i).getPosition(), ret);
 			}
 			initailized.set(true);
 			this.setCache(true);
+			//bind this overview pane width to the right width property in MainFrame
 			this.prefWidthProperty().bind(((MainFrameController)controller).getBlockPaneWidthProperty());
 		} finally {
 			lock.unlock();
 		}
+	}
+	
+	/**
+	 * find the block unit UI by block unit position in file
+	 * @param position
+	 * @return
+	 */
+	public Shape find(long position){
+		return map.get(position);
 	}
 
 	/**
@@ -111,19 +137,4 @@ public class BlocksView extends FlowPane {
 		this.block_arc_height = block_arc_height;
 	}
 
-	/**
-	 * @return the block_init_color
-	 */
-	public Paint getBlock_init_color() {
-		return block_init_color;
-	}
-
-	/**
-	 * @param block_init_color the block_init_color to set
-	 */
-	public void setBlock_init_color(Paint block_init_color) {
-		this.block_init_color = block_init_color;
-	}
-
-	
 }

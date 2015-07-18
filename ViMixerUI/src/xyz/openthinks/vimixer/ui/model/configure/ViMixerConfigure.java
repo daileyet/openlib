@@ -111,7 +111,8 @@ public class ViMixerConfigure {
 	public static ViMixerConfigure unmarshal(File file) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(ViMixerConfigure.class);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		return (ViMixerConfigure) unmarshaller.unmarshal(file);
+		ViMixerConfigure configure = (ViMixerConfigure) unmarshaller.unmarshal(file);
+		return configure;
 	}
 
 	public final StringProperty storedFileProperty() {
@@ -141,5 +142,8 @@ public class ViMixerConfigure {
 	}
 
 
-
+	public static void main(String[] args) throws JAXBException {
+		ViMixerConfigure configure= ViMixerConfigure.unmarshal(new File("C:\\Users\\Dailey\\OneDrive\\Documents\\openthinks_vimixer.xml"));
+		System.out.println(configure);
+	}
 }

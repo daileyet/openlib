@@ -1,5 +1,7 @@
 package xyz.openthinks.vimixer.ui.controller.biz;
 
+import java.util.Date;
+
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -11,8 +13,10 @@ import xyz.openthinks.crypto.mix.impl.DefaultMixStrategy;
 import xyz.openthinks.crypto.mix.impl.FileMixer;
 import xyz.openthinks.crypto.mix.impl.MixFile;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
+import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
+import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
 import xyz.openthinks.vimixer.ui.model.ViFile;
-import xyz.openthinks.vimixer.ui.model.ViFile.STATUS;
+import xyz.openthinks.vimixer.ui.model.ViFileStatus;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
 
 /**
@@ -55,6 +59,7 @@ public class ProcessMixBizThread extends Thread {
 			alert.show();
 			return;
 		}
+		
 		for (ViFile viFile : this.viFiles) {
 			MixTarget mixTarget = new MixFile(viFile.getFile(),
 					segmentor.mixSegmentor());
@@ -66,7 +71,11 @@ public class ProcessMixBizThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			mixTarget.free();
+			try {
+				mixTarget.free();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -86,21 +95,35 @@ public class ProcessMixBizThread extends Thread {
 
 		@Override
 		public void start() {
-			super.start();
-			this.viFile.statusProperty().set(STATUS.IN_PROCESSING);
+			try {
+				super.start();
+				this.viFile.statusProperty().set(ViFileStatus.IN_PROCESSING);
+				this.viFile.getInfo().setStartTime(startTime);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 
 		@Override
 		public void processed(MixBlock mixBlock) {
-			// TODO
-			super.processed(mixBlock);
+//			super.processed(mixBlock);
+			try {
+				BlockOverViewFigure.valueOf(viFile).with(controller).dynamic(DynamicPaintType.PROCESSED_PARTIAL,mixBlock.getPosition());
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 
 		@Override
 		public void completed() {
-			// completeTime = new Date().getTime();
-			super.completed();
-			this.viFile.statusProperty().set(STATUS.COMPLETED);
+			 try {
+				completeTime = new Date().getTime();
+				BlockOverViewFigure.valueOf(viFile).with(controller).dynamic(DynamicPaintType.PROCESSED_ALL);
+				this.viFile.statusProperty().set(ViFileStatus.COMPLETED);
+				this.viFile.getInfo().setEndTime(completeTime);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 

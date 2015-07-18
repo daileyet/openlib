@@ -7,7 +7,7 @@ import javafx.collections.ObservableMap;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 
 /**
- * 
+ * {@link BlocksView} cache pool and request queue
  * @author minjdai
  *
  */
@@ -18,6 +18,11 @@ public final class BlockFiguresPool {
 
 	private final static LinkedBlockingQueue<BlockOverViewFigure> concurrentLinkedQueue = new LinkedBlockingQueue<BlockOverViewFigure>();
 	
+	/**
+	 * try to get {@link BlocksView} from cache firstly, if not exist, create a new one to reference the {@link ViFile}
+	 * @param vifile 
+	 * @return BlocksView
+	 */
 	public final static BlocksView get(ViFile vifile) {
 		if (caches.containsKey(vifile)) {
 			return caches.get(vifile);
@@ -27,6 +32,10 @@ public final class BlockFiguresPool {
 		}
 	}
 
+	/**
+	 * 
+	 * @return BlockOverViewFigure
+	 */
 	public static final BlockOverViewFigure currentFigure(){
 		return currentFigure;
 	}

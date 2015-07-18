@@ -22,8 +22,10 @@ import javafx.scene.layout.FlowPane;
 import xyz.openthinks.vimixer.ui.controller.biz.ProcessMixBizThread;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockFiguresPool;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
+import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
 import xyz.openthinks.vimixer.ui.model.ViFile;
-import xyz.openthinks.vimixer.ui.model.ViFile.STATUS;
+import xyz.openthinks.vimixer.ui.model.ViFileInfo;
+import xyz.openthinks.vimixer.ui.model.ViFileStatus;
 import xyz.openthinks.vimixer.ui.model.ViFileSupportType;
 
 public class MainFrameController extends BaseController {
@@ -35,7 +37,9 @@ public class MainFrameController extends BaseController {
 	@FXML
 	private TableColumn<ViFile, String> filePathColumn;
 	@FXML
-	private TableColumn<ViFile, STATUS> statusColumn;
+	private TableColumn<ViFile, ViFileStatus> statusColumn;
+	@FXML
+	private TableColumn<ViFile, ViFileInfo> infoColumn;
 	@FXML
 	private TextField configPathField;
 	@FXML
@@ -67,6 +71,8 @@ public class MainFrameController extends BaseController {
 				.filePathProperty());
 		statusColumn.setCellValueFactory(cellData -> cellData.getValue()
 				.statusProperty());
+		infoColumn.setCellValueFactory(cellData -> cellData.getValue()
+				.infoProperty());
 		tableCtxmenu.setOnShowing((event) -> {
 			boolean isShow = !vifileTable.getSelectionModel()
 					.getSelectedItems().isEmpty();
@@ -105,6 +111,7 @@ public class MainFrameController extends BaseController {
 				|| this.configure().getSecretKey().trim().isEmpty()) {
 			runBtn.setDisable(true);
 		}
+		// start a new thread to monitor the request to show {@link BlocksView}
 		BlockFiguresPool.active();
 	}
 
@@ -112,19 +119,23 @@ public class MainFrameController extends BaseController {
 	private void handStartAction() {
 		ObservableList<ViFile> viFiles = this.listProperty().get();
 		FilteredList<ViFile> filteredList = viFiles
-				.filtered(testFile -> ViFile.STATUS.NOT_START == testFile
+				.filtered(testFile -> ViFileStatus.NOT_START == testFile
 						.getStatus());
 		new ProcessMixBizThread(this, filteredList).start();
 	}
 
+	/**
+	 * monitor TableView selected a row and show {@link BlocksView}
+	 */
 	@FXML
 	private void handMouseClick() {
 		if (vifileTable.getSelectionModel().getSelectedItems().isEmpty())
 			;
 		else {
 			ViFile viFile = vifileTable.getSelectionModel().getSelectedItem();
-			BlockOverViewFigure.valueOf(viFile).with(MainFrameController.this)
-					.targetOn(blockPane).push();
+			BlockOverViewFigure.valueOf(viFile).with(this)
+				.targetOn(blockPane).push();
+			
 		}
 	}
 
@@ -163,7 +174,8 @@ public class MainFrameController extends BaseController {
 		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
 				.getSelectedItems();
 		for (ViFile viFile : viFiles) {
-			viFile.setStatus(STATUS.NOT_START);
+			viFile.setStatus(ViFileStatus.NOT_START);
+			BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
 		}
 	}
 
@@ -171,7 +183,8 @@ public class MainFrameController extends BaseController {
 	private void handResetAllAction() {
 		ObservableList<ViFile> viFiles = this.listProperty().get();
 		for (ViFile viFile : viFiles) {
-			viFile.setStatus(STATUS.NOT_START);
+			viFile.setStatus(ViFileStatus.NOT_START);
+			BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
 		}
 	}
 

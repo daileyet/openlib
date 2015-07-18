@@ -1,11 +1,13 @@
 package xyz.openthinks.vimixer.ui.model.configure;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import xyz.openthinks.crypto.mix.MixSegmentor;
 import xyz.openthinks.crypto.mix.impl.SmartMixSegment;
 
-@XmlRootElement(name = "segmentor")
+@XmlType
+@XmlRootElement(name = "smart-segmentor")
 public class SmartLinearSegmentor extends Segmentor {
 	public static final String TYPE = "Smart";
 

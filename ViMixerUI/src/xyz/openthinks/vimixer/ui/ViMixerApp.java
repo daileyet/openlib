@@ -28,6 +28,9 @@ public class ViMixerApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.getIcons().add(ResourceLoader.APP_ICON);
+		primaryStage.setOnCloseRequest((event)->{
+			System.exit(0);
+		});
 		transfer.setPrimaryStage(primaryStage);
 		initRootLayout();
 		showMainFrame();

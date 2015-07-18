@@ -29,6 +29,10 @@ public final class MixBlocks implements Iterable<MixBlock>{
 		return list.size();
 	}
 	
+	public MixBlock get(int index){
+		return list.get(index);
+	}
+	
 	@Override
 	public Iterator<MixBlock> iterator() {
 		return new Iterator<MixBlock>(){

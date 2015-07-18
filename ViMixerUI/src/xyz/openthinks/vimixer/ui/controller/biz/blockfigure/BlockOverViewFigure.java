@@ -1,12 +1,14 @@
 package xyz.openthinks.vimixer.ui.controller.biz.blockfigure;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 
 /**
- * Show and dynamic figure blocks mixed process
+ * Show blocks overview and dynamic figure blocks mixed process
  * 
  * @author minjdai
  *
@@ -45,17 +47,41 @@ public class BlockOverViewFigure {
 			@Override
 			public void run() {
 				if (!BlockOverViewFigure.this.blocksView.isInitialized()) {
-					BlockOverViewFigure.this.blocksView.initial(
-							BlockOverViewFigure.this.observable,
+					BlockOverViewFigure.this.blocksView.initial(BlockOverViewFigure.this.observable,
 							BlockOverViewFigure.this.controller);
 				}
 				BlockOverViewFigure.this.blockPane.getChildren().clear();
-				BlockOverViewFigure.this.blockPane.getChildren().add(
-						BlockOverViewFigure.this.blocksView);
+				BlockOverViewFigure.this.blockPane.getChildren().add(BlockOverViewFigure.this.blocksView);
 			}
 		});
-		
+	}
 
+	public void dynamic(DynamicPaintType paintType, Long... positions) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				BlocksView blocksView = BlockOverViewFigure.this.blocksView;
+				if (blocksView == null || !blocksView.isInitialized())
+					return;
+				switch (paintType) {
+				case INITIALIZED_ALL:
+				case PROCESSED_ALL:
+					for(Node node: blocksView.getChildren()){
+						((Shape)node).setFill(paintType.color());
+					}
+					break;
+				case PROCESSED_PARTIAL:
+					if (positions != null) {
+						for (Long position : positions) {
+							blocksView.find(position).setFill(paintType.color());
+						}
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		});
 	}
 
 	/*
@@ -67,8 +93,7 @@ public class BlockOverViewFigure {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((observable == null) ? 0 : observable.hashCode());
+		result = prime * result + ((observable == null) ? 0 : observable.hashCode());
 		return result;
 	}
 

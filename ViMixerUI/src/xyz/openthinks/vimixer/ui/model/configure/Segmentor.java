@@ -1,6 +1,7 @@
 package xyz.openthinks.vimixer.ui.model.configure;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
 
 import xyz.openthinks.crypto.mix.MixSegmentor;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,7 +11,8 @@ import javafx.beans.property.StringProperty;
  * @author minjdai
  *
  */
-@XmlSeeAlso({ SmartLinearSegmentor.class, SimpleLinearSegmentor.class })
+@XmlType
+@XmlSeeAlso({ SimpleLinearSegmentor.class,SmartLinearSegmentor.class })
 public abstract class Segmentor {
 	private StringProperty type;
 

@@ -1,6 +1,7 @@
 package xyz.openthinks.vimixer.ui.model.configure;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import xyz.openthinks.crypto.mix.MixSegmentor;
 import xyz.openthinks.crypto.mix.impl.DefaultMixSegment;
@@ -9,7 +10,8 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 
-@XmlRootElement(name = "segmentor")
+@XmlType
+@XmlRootElement(name = "simple-segmentor")
 public class SimpleLinearSegmentor extends Segmentor {
 	public static final String TYPE = "Simple";
 

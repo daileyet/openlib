@@ -12,24 +12,19 @@ import javafx.beans.property.StringProperty;
 
 public class ViFile {
 
-	public static enum STATUS {
-		NOT_START, IN_PROCESSING, COMPLETED;
-		
-		public String toString() {
-			return name();
-		};
-	}
-
-	
 	private static AtomicInteger id_generator = new AtomicInteger(0);
 	private final IntegerProperty id;
 	private final StringProperty filePath;
-	private final ObjectProperty<STATUS> status;
+	private final ObjectProperty<ViFileStatus> status;
+	private final ObjectProperty<ViFileInfo> info;
 
 	public ViFile(String filePath) {
 		this.id = new SimpleIntegerProperty(id_generator.addAndGet(1));
 		this.filePath = new SimpleStringProperty(filePath);
-		this.status = new SimpleObjectProperty<STATUS>(STATUS.NOT_START);
+		this.status = new SimpleObjectProperty<ViFileStatus>(ViFileStatus.NOT_START);
+		ViFileInfo fileInfo = new ViFileInfo();
+		fileInfo.setFileLength(new File(filePath).length());
+		this.info = new SimpleObjectProperty<ViFileInfo>(fileInfo);
 	}
 	
 	public ViFile(File file){
@@ -64,16 +59,16 @@ public class ViFile {
 		this.filePathProperty().set(filePath);
 	}
 
-	public final ObjectProperty<STATUS> statusProperty() {
+	public final ObjectProperty<ViFileStatus> statusProperty() {
 		return this.status;
 	}
 
-	public final xyz.openthinks.vimixer.ui.model.ViFile.STATUS getStatus() {
+	public final xyz.openthinks.vimixer.ui.model.ViFileStatus getStatus() {
 		return this.statusProperty().get();
 	}
 
 	public final void setStatus(
-			final xyz.openthinks.vimixer.ui.model.ViFile.STATUS status) {
+			final xyz.openthinks.vimixer.ui.model.ViFileStatus status) {
 		this.statusProperty().set(status);
 	}
 
@@ -109,6 +104,21 @@ public class ViFile {
 			return false;
 		return true;
 	}
+
+	public final ObjectProperty<ViFileInfo> infoProperty() {
+		return this.info;
+	}
+	
+
+	public final xyz.openthinks.vimixer.ui.model.ViFileInfo getInfo() {
+		return this.infoProperty().get();
+	}
+	
+
+	public final void setInfo(final xyz.openthinks.vimixer.ui.model.ViFileInfo info) {
+		this.infoProperty().set(info);
+	}
+	
 
 
 

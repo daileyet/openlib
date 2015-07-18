@@ -39,6 +39,7 @@ public abstract class AbstractMixer implements Mixer {
 				Executors.newFixedThreadPool(100);
 		final CompletionService<MixBlock> competeService = new ExecutorCompletionService<MixBlock>(
 				executorService);
+		mixProcesser.start();
 		MixBlocks blocks = mixTarget.blocks();
 		for (MixBlock mixBlock : blocks) {
 			competeService.submit(new Callable<MixBlock>() {
@@ -51,7 +52,6 @@ public abstract class AbstractMixer implements Mixer {
 			});
 		}
 		// waiting for all the piece task 
-		mixProcesser.start();
 		for (int i = 0; i < blocks.size(); i++) {
 			Future<MixBlock> future = competeService.take();
 			MixBlock block = null;
