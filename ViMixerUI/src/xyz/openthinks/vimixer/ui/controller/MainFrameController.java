@@ -65,6 +65,7 @@ public class MainFrameController extends BaseController {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
 		idColumn.setCellValueFactory(cellData -> cellData.getValue()
 				.idProperty());
 		filePathColumn.setCellValueFactory(cellData -> cellData.getValue()
@@ -193,11 +194,13 @@ public class MainFrameController extends BaseController {
 		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
 				.getSelectedItems();
 		vifileTable.getItems().removeAll(viFiles);
+		BlockFiguresPool.removeAll(viFiles);
 	}
 
 	@FXML
 	private void handClearAllAction() {
 		this.listProperty().get().clear();
+		BlockFiguresPool.clear();
 	}
 
 }

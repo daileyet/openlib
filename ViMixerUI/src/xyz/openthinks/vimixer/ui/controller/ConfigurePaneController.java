@@ -39,6 +39,7 @@ public class ConfigurePaneController extends BaseController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
 		secretStoredField.setVisible(false);
 		spaceValueLabel.textProperty().bindBidirectional(
 				spaceSlider.valueProperty(), new NumberStringConverter());

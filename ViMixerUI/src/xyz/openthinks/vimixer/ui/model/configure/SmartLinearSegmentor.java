@@ -22,7 +22,7 @@ public class SmartLinearSegmentor extends Segmentor {
 
 	@Override
 	public void refresh(Segmentor otherSeg) {
-		
+
 	}
 
 	@Override

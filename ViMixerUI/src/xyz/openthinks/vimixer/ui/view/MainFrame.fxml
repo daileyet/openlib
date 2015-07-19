@@ -17,14 +17,11 @@
                   <Button fx:id="runBtn" maxHeight="32.0" mnemonicParsing="false" onAction="#handStartAction" prefHeight="32.0" stylesheets="@application.css" AnchorPane.rightAnchor="1.0" />
                   <TableView fx:id="vifileTable" onDragDropped="#handDragDropped" onDragOver="#handOnDragOver" onMouseClicked="#handMouseClick" prefHeight="304.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                     <columns>
-                      <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
-                      <TableColumn fx:id="filePathColumn" prefWidth="75.0" text="File" />
-                        <TableColumn fx:id="statusColumn" prefWidth="75.0" text="Status" />
-                        <TableColumn fx:id="infoColumn" prefWidth="75.0" text="Info" />
+                      <TableColumn fx:id="idColumn" prefWidth="107.0" text="ID" />
+                      <TableColumn fx:id="filePathColumn" prefWidth="118.0" text="File" />
+                        <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="0.0" text="Status" />
+                        <TableColumn fx:id="infoColumn" prefWidth="75.0" text="Info" visible="false" />
                     </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
                      <contextMenu>
                         <ContextMenu fx:id="tableCtxmenu" autoFix="false">
                           <items>
@@ -35,6 +32,9 @@
                           </items>
                         </ContextMenu>
                      </contextMenu>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                   <Label layoutX="10.0" layoutY="15.0" text="Configure File" AnchorPane.leftAnchor="10.0" />
                   <TextField fx:id="configPathField" editable="false" layoutX="108.0" layoutY="11.0" prefHeight="23.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />

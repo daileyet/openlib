@@ -31,7 +31,8 @@ import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
 public abstract class BaseController implements Initializable {
 	private static final String PREF_FILE = "filePath";
 	private TransferData transfer;
-	
+	protected ResourceBundle resourceBundle;
+
 	public final void setTransfer(final TransferData transfer) {
 		this.beforeSetTransfer();
 		this.transfer = transfer;
@@ -40,6 +41,7 @@ public abstract class BaseController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.resourceBundle = resources;
 	}
 
 	protected void afterSetTransfer() {
@@ -52,10 +54,9 @@ public abstract class BaseController implements Initializable {
 		return transfer.app();
 	}
 
-	public final ObjectProperty<ObservableList<ViFile>> listProperty(){
+	public final ObjectProperty<ObservableList<ViFile>> listProperty() {
 		return transfer.listProperty();
 	}
-	
 
 	public final ViMixerConfigure configure() {
 		return transfer.configure();
@@ -66,8 +67,7 @@ public abstract class BaseController implements Initializable {
 	}
 
 	public final File lastConfigureFile() {
-		Preferences preferences = Preferences
-				.userNodeForPackage(ViMixerApp.class);
+		Preferences preferences = Preferences.userNodeForPackage(ViMixerApp.class);
 		String filePath = preferences.get(PREF_FILE, null);
 		if (filePath != null) {
 			return new File(filePath);
@@ -76,8 +76,7 @@ public abstract class BaseController implements Initializable {
 	}
 
 	private final void storeConfigurePath(File file) {
-		Preferences preferences = Preferences
-				.userNodeForPackage(ViMixerApp.class);
+		Preferences preferences = Preferences.userNodeForPackage(ViMixerApp.class);
 		if (file != null) {
 			preferences.put(PREF_FILE, file.getPath());
 			configure().setStoredFile(file.getAbsolutePath());
@@ -86,12 +85,12 @@ public abstract class BaseController implements Initializable {
 			configure().setStoredFile(null);
 		}
 	}
-	
+
 	/**
 	 * @param file
 	 */
 	public final void loadConfigure(File file) {
-		if(file!=null){
+		if (file != null) {
 			try {
 				ViMixerConfigure loadCconfigure = ViMixerConfigure.unmarshal(file);
 				configure().setConfigureName(loadCconfigure.getConfigureName());
@@ -99,17 +98,17 @@ public abstract class BaseController implements Initializable {
 				configure().setTempSecretKey(loadCconfigure.getSecretKey());
 				configure().setSegmentor(loadCconfigure.getSegmentor());
 				this.storeConfigurePath(file);
-			} catch (JAXBException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * @param file
 	 */
 	public final void saveConfigure(File file) {
-		if(file!=null){
+		if (file != null) {
 			try {
 				ViMixerConfigure.marshal(this.configure(), file);
 				this.storeConfigurePath(file);
@@ -118,5 +117,5 @@ public abstract class BaseController implements Initializable {
 			}
 		}
 	}
-	
+
 }

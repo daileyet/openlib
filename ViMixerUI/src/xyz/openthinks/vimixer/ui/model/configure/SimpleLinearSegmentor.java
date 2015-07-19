@@ -9,7 +9,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
-
 @XmlType
 @XmlRootElement(name = "simple-segmentor")
 public class SimpleLinearSegmentor extends Segmentor {

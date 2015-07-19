@@ -3,9 +3,9 @@ package xyz.openthinks.vimixer.ui.model.configure;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import xyz.openthinks.crypto.mix.MixSegmentor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import xyz.openthinks.crypto.mix.MixSegmentor;
 /**
  * The wrapper of {@link MixSegmentor}, used in {@link ViMixerConfigure}
  * @author minjdai

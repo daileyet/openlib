@@ -2,6 +2,7 @@ package xyz.openthinks.vimixer.ui;
 
 import java.io.IOException;
 
+import i18n.I18n;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import xyz.openthinks.vimixer.resources.ResourceLoader;
+import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.ConfigurePaneController;
 import xyz.openthinks.vimixer.ui.controller.MainFrameController;
 import xyz.openthinks.vimixer.ui.controller.RootLayoutController;
@@ -39,6 +41,7 @@ public class ViMixerApp extends Application {
 	private void initRootLayout() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ResourceLoader.FXML_ROOTLAYOUT);
+		loader.setResources(I18n.getResourceBundle(ViMixerBundles.UI));
 		try {
 			this.rootLayout = loader.load();
 			Scene scene = new Scene(this.rootLayout);
@@ -58,6 +61,7 @@ public class ViMixerApp extends Application {
 	private void showMainFrame() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ResourceLoader.FXML_MAINFRAME);
+		loader.setResources(I18n.getResourceBundle(ViMixerBundles.UI));
 		try {
 			AnchorPane anchorPane = loader.load();
 			MainFrameController controller = loader.getController();
@@ -71,6 +75,7 @@ public class ViMixerApp extends Application {
 	public void showConfigurePane() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ResourceLoader.FXML_CONFIGUREPANE);
+		loader.setResources(I18n.getResourceBundle(ViMixerBundles.UI));
 		try {
 			AnchorPane anchorPane = loader.load();
 			ConfigurePaneController controller = loader.getController();

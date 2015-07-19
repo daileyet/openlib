@@ -84,6 +84,13 @@ public class BlockOverViewFigure {
 		});
 	}
 
+	
+	public void destory(){
+		BlocksView blocksView = BlockFiguresPool.get(observable);
+		if(blocksView.getParent()!=null){
+			((Pane)blocksView.getParent()).getChildren().remove(blocksView);
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

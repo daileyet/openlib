@@ -1,5 +1,6 @@
 package xyz.openthinks.vimixer.ui.controller.biz.blockfigure;
 
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javafx.collections.FXCollections;
@@ -8,19 +9,21 @@ import xyz.openthinks.vimixer.ui.model.ViFile;
 
 /**
  * {@link BlocksView} cache pool and request queue
+ * 
  * @author minjdai
  *
  */
 public final class BlockFiguresPool {
-	private final static ObservableMap<ViFile, BlocksView> caches = FXCollections
-			.observableHashMap();
+	private final static ObservableMap<ViFile, BlocksView> caches = FXCollections.observableHashMap();
 	private static BlockOverViewFigure currentFigure;
 
 	private final static LinkedBlockingQueue<BlockOverViewFigure> concurrentLinkedQueue = new LinkedBlockingQueue<BlockOverViewFigure>();
-	
+
 	/**
-	 * try to get {@link BlocksView} from cache firstly, if not exist, create a new one to reference the {@link ViFile}
-	 * @param vifile 
+	 * try to get {@link BlocksView} from cache firstly, if not exist, create a
+	 * new one to reference the {@link ViFile}
+	 * 
+	 * @param vifile
 	 * @return BlocksView
 	 */
 	public final static BlocksView get(ViFile vifile) {
@@ -32,14 +35,32 @@ public final class BlockFiguresPool {
 		}
 	}
 
+	public final static void removeAll(List<ViFile> vifiles) {
+		if(vifiles==null)
+			return;
+		for(ViFile vifile:vifiles){
+			caches.remove(vifile);
+		}
+		if(currentFigure!=null){
+			currentFigure.destory();
+		}
+	}
+
+	public final static void clear() {
+		if(currentFigure!=null){
+			currentFigure.destory();
+		}
+		caches.clear();
+	}
+
 	/**
 	 * 
 	 * @return BlockOverViewFigure
 	 */
-	public static final BlockOverViewFigure currentFigure(){
+	public static final BlockOverViewFigure currentFigure() {
 		return currentFigure;
 	}
-	
+
 	public final static void push(BlockOverViewFigure overViewFigure) {
 		currentFigure = overViewFigure;
 		concurrentLinkedQueue.add(overViewFigure);

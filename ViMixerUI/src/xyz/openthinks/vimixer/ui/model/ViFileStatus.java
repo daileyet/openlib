@@ -1,5 +1,7 @@
 package xyz.openthinks.vimixer.ui.model;
 
+import i18n.I18n;
+import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
 
 public enum ViFileStatus {
@@ -13,7 +15,7 @@ public enum ViFileStatus {
 	}
 
 	public String toString() {
-		return name();
+		return I18n.getMessage(ViMixerBundles.UI, this.name());
 	};
 
 	public DynamicPaintType paintType() {
