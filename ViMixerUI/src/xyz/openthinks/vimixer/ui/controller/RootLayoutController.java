@@ -21,11 +21,22 @@ import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileSupportType;
 
 public class RootLayoutController extends BaseController {
-
+	
+	@FXML
+	private RadioMenuItem en_Menuitem;
+	@FXML
+	private RadioMenuItem zh_Menuitem;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
+		//initial locale menu item selected
+		Locale currentLocale = I18nApplicationLocale.getInstance().getCurrentLocale();
+		if(Locale.CHINA.equals(currentLocale) || Locale.CHINESE.equals(currentLocale)){
+			zh_Menuitem.setSelected(true);
+		}else{
+			en_Menuitem.setSelected(true);
+		}
 		
 	}
 	
