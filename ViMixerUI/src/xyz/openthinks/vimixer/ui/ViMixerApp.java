@@ -1,8 +1,12 @@
 package xyz.openthinks.vimixer.ui;
 
-import java.io.IOException;
-
 import i18n.I18n;
+import i18n.I18nApplicationLocale;
+
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,14 +26,16 @@ import xyz.openthinks.vimixer.ui.controller.RootLayoutController;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
 
-public class ViMixerApp extends Application {
+public class ViMixerApp extends Application implements Observer {
 
 	private BorderPane rootLayout;
 	private final TransferData transfer = new TransferData(this);
 
 	@Override
 	public void start(Stage primaryStage) {
+		I18nApplicationLocale.getInstance().addObserver(this);
 		primaryStage.getIcons().add(ResourceLoader.APP_ICON);
+		primaryStage.setTitle(I18n.getMessage(ViMixerBundles.UI, "app.title"));
 		primaryStage.setOnCloseRequest((event)->{
 			System.exit(0);
 		});
@@ -83,7 +89,7 @@ public class ViMixerApp extends Application {
 			Stage stage = new Stage();
 			stage.getIcons().add(ResourceLoader.APP_ICON);
 			stage.initOwner(transfer.stage());
-			stage.setTitle("ViMixer Configure");
+			stage.setTitle(I18n.getMessage(ViMixerBundles.UI,"stage.conf.title"));
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.setResizable(false);
 			Scene scene = new Scene(anchorPane);
@@ -130,6 +136,17 @@ public class ViMixerApp extends Application {
 		public Stage stage() {
 			return primaryStage;
 		}
+	}
+
+	private void reload(){
+		initRootLayout();
+		showMainFrame();
+	}
+	
+	@Override
+	public void update(Observable o, Object newloace) {
+		transfer.stage().setTitle(I18n.getMessage(ViMixerBundles.UI,"app.title"));
+		reload();
 	}
 
 }

@@ -3,7 +3,7 @@ package xyz.openthinks.vimixer.resources.bundles;
 import i18n.implement.bundle.IBundleMessageType;
 
 public enum ViMixerBundles implements IBundleMessageType{
-	UI,LOG;
+	UI,LOG,MODEL;
 	
 	@Override
 	public String value() {

@@ -11,24 +11,34 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="%menu.file">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handAddAction" text="Add" />
-              <MenuItem mnemonicParsing="false" onAction="#handQuitAction" text="Quit" />
+                  <MenuItem mnemonicParsing="false" onAction="#handAddAction" text="%menuitem.add" />
+              <MenuItem mnemonicParsing="false" onAction="#handQuitAction" text="%menuitem.quit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Configure">
+          <Menu mnemonicParsing="false" text="%menu.configure">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#handViewCurrent" text="View Current" />
+                  <MenuItem mnemonicParsing="false" onAction="#handViewCurrent" text="%menuitem.view" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#handSaveConfigure" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#handSaveAsConfigure" text="Save As" />
-              <MenuItem mnemonicParsing="false" onAction="#handLoadConfigure" text="Load From" />
+                  <MenuItem mnemonicParsing="false" onAction="#handSaveConfigure" text="%menuitem.save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handSaveAsConfigure" text="%menuitem.saveas" />
+              <MenuItem mnemonicParsing="false" onAction="#handLoadConfigure" text="%menuitem.load" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+            <Menu mnemonicParsing="false" text="%menu.locale">
+               <items>
+                  <RadioMenuItem fx:id="en_Menuitem" mnemonicParsing="false" onAction="#handLocaleChange" text="%menuitem.en">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="radio_locale_group" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem fx:id="zh_Menuitem" mnemonicParsing="false" onAction="#handLocaleChange" text="%menuitem.zh" toggleGroup="$radio_locale_group" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="%menu.help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#handAbout" text="%menuitem.about" />
             </items>
           </Menu>
         </menus>

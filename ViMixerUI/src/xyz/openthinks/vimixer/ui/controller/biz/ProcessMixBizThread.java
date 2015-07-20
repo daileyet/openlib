@@ -1,5 +1,7 @@
 package xyz.openthinks.vimixer.ui.controller.biz;
 
+import i18n.I18n;
+
 import java.util.Date;
 
 import javafx.collections.ObservableList;
@@ -12,6 +14,7 @@ import xyz.openthinks.crypto.mix.impl.DefaultMixProcesser;
 import xyz.openthinks.crypto.mix.impl.DefaultMixStrategy;
 import xyz.openthinks.crypto.mix.impl.FileMixer;
 import xyz.openthinks.crypto.mix.impl.MixFile;
+import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
@@ -45,7 +48,7 @@ public class ProcessMixBizThread extends Thread {
 		if (secretKey == null || "".equals(secretKey.trim())) {
 			Alert alert = new Alert(AlertType.ERROR);
 			// alert.setHeaderText("");
-			alert.setContentText("The secret key is empty, please configure it firstly!");
+			alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "alert.error.secret.content"));
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;
@@ -54,7 +57,7 @@ public class ProcessMixBizThread extends Thread {
 		if (segmentor == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			// alert.setHeaderText("");
-			alert.setContentText("The segmentor is lost, please configure it firstly!");
+			alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "alert.error.segmentor.content"));
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;

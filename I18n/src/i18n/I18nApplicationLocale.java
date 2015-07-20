@@ -92,7 +92,7 @@ public class I18nApplicationLocale extends Observable {
 			this.currentLocale = locale;
 			super.setChanged();
 		}
-		super.notifyObservers();
+		super.notifyObservers(this.currentLocale);
 	}
 
 }

@@ -3,9 +3,15 @@
  */
 package xyz.openthinks.vimixer.ui.controller;
 
+import i18n.I18n;
+import i18n.I18nApplicationLocale;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -17,6 +23,7 @@ import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBException;
 
+import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.ViMixerApp;
 import xyz.openthinks.vimixer.ui.ViMixerApp.TransferData;
 import xyz.openthinks.vimixer.ui.model.ViFile;
@@ -28,7 +35,7 @@ import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
  * @author minjdai
  *
  */
-public abstract class BaseController implements Initializable {
+public abstract class BaseController implements Initializable,Observer {
 	private static final String PREF_FILE = "filePath";
 	private TransferData transfer;
 	protected ResourceBundle resourceBundle;
@@ -41,9 +48,22 @@ public abstract class BaseController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		I18nApplicationLocale.getInstance().addObserver(this);
 		this.resourceBundle = resources;
 	}
+	
+	@Override
+	public void update(Observable o, Object newlocale) {
+		this.resourceBundle = I18n.getResourceBundle(ViMixerBundles.UI, (Locale)newlocale);
+	}
 
+	protected String getBundleMessage(String bundleKey){
+		if(this.resourceBundle==null){
+			return "";
+		}
+		return this.resourceBundle.getString(bundleKey);
+	}
+	
 	protected void afterSetTransfer() {
 	}
 

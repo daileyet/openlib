@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
+import xyz.openthinks.vimixer.ui.model.configure.SegmentorType;
 import xyz.openthinks.vimixer.ui.model.configure.SimpleLinearSegmentor;
 import xyz.openthinks.vimixer.ui.model.configure.SmartLinearSegmentor;
 import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
@@ -22,7 +23,7 @@ public class ConfigurePaneController extends BaseController {
 	@FXML
 	private PasswordField secretField;
 	@FXML
-	private ComboBox<String> typeCombox;
+	private ComboBox<SegmentorType> typeCombox;
 	@FXML
 	private Slider spaceSlider;
 	@FXML
@@ -50,7 +51,7 @@ public class ConfigurePaneController extends BaseController {
 		typeCombox.getItems().add(SimpleLinearSegmentor.TYPE);
 		typeCombox.valueProperty().addListener(
 				(observable, oldvalue, newvalue) -> {
-					if (SmartLinearSegmentor.TYPE.equalsIgnoreCase(newvalue)) {
+					if (SmartLinearSegmentor.TYPE==newvalue) {
 						spaceSlider.setDisable(true);
 						lengthSlider.setDisable(true);
 						ConfigurePaneController.this.configure().setSegmentor(

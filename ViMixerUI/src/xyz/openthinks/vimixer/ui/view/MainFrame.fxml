@@ -17,10 +17,10 @@
                   <Button fx:id="runBtn" maxHeight="32.0" mnemonicParsing="false" onAction="#handStartAction" prefHeight="32.0" stylesheets="@application.css" AnchorPane.rightAnchor="1.0" />
                   <TableView fx:id="vifileTable" onDragDropped="#handDragDropped" onDragOver="#handOnDragOver" onMouseClicked="#handMouseClick" prefHeight="304.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                     <columns>
-                      <TableColumn fx:id="idColumn" prefWidth="107.0" text="ID" />
-                      <TableColumn fx:id="filePathColumn" prefWidth="118.0" text="File" />
-                        <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="0.0" text="Status" />
-                        <TableColumn fx:id="infoColumn" prefWidth="75.0" text="Info" visible="false" />
+                      <TableColumn fx:id="idColumn" prefWidth="107.0" text="%tablecolumn.id" />
+                      <TableColumn fx:id="filePathColumn" prefWidth="118.0" text="%tablecolumn.file" />
+                        <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="0.0" text="%tablecolumn.status" />
+                        <TableColumn fx:id="infoColumn" prefWidth="75.0" text="%tablecolumn.info" visible="false" />
                     </columns>
                      <contextMenu>
                         <ContextMenu fx:id="tableCtxmenu" autoFix="false">

@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleLongProperty;
 @XmlType
 @XmlRootElement(name = "simple-segmentor")
 public class SimpleLinearSegmentor extends Segmentor {
-	public static final String TYPE = "Simple";
+	public static final SegmentorType TYPE = SegmentorType.SIMPLE;
 
 	private IntegerProperty space;
 	private LongProperty length;
@@ -54,7 +54,7 @@ public class SimpleLinearSegmentor extends Segmentor {
 
 	@Override
 	public String toString() {
-		return "SimpleLinearSegmentorP [space=" + space + ", length=" + length
+		return "SimpleLinearSegmentor [space=" + space + ", length=" + length
 				+ ", getType()=" + getType() + "]";
 	}
 

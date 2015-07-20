@@ -1,16 +1,34 @@
 package xyz.openthinks.vimixer.ui.controller;
 
-import java.io.File;
-import java.util.List;
+import i18n.I18n;
+import i18n.I18nApplicationLocale;
 
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.RadioMenuItem;
 import javafx.stage.FileChooser;
+import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.ViMixerApp;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileSupportType;
 
 public class RootLayoutController extends BaseController {
 
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
+		
+	}
+	
 	@Override
 	protected void afterSetTransfer() {
 		super.afterSetTransfer();
@@ -76,6 +94,24 @@ public class RootLayoutController extends BaseController {
 		// Show save file dialog
 		File file = fileChooser.showOpenDialog(this.stage());
 		this.loadConfigure(file);
+	}
+	
+	@FXML
+	private void handAbout(){
+		Alert alert =new Alert(AlertType.INFORMATION);
+		alert.setTitle(getBundleMessage("app.title"));
+		alert.setHeaderText(getBundleMessage("about.alert.header"));
+		alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "about.alert.content", "1.0","Dailey Dai","http://openthinks.xyz"));
+		alert.initOwner(this.stage());
+		alert.showAndWait();
+	}
+	
+	@FXML
+	private void handLocaleChange(Event event){
+		String menuitemId = ((RadioMenuItem)event.getSource()).getId();
+		String changeToLocale = menuitemId.split("_")[0];
+		Locale locale = new Locale.Builder().setLanguage(changeToLocale).build();
+		I18nApplicationLocale.getInstance().changeCurrentLocale(locale);
 	}
 
 }

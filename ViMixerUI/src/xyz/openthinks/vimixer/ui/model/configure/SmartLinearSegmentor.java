@@ -9,7 +9,7 @@ import xyz.openthinks.crypto.mix.impl.SmartMixSegment;
 @XmlType
 @XmlRootElement(name = "smart-segmentor")
 public class SmartLinearSegmentor extends Segmentor {
-	public static final String TYPE = "Smart";
+	public static final SegmentorType TYPE = SegmentorType.SMART;
 
 	public SmartLinearSegmentor() {
 		super(TYPE);
@@ -17,7 +17,7 @@ public class SmartLinearSegmentor extends Segmentor {
 
 	@Override
 	public String toString() {
-		return "SmartLinearSegmentorP [getType()=" + getType() + "]";
+		return "SmartLinearSegmentor [getType()=" + getType() + "]";
 	}
 
 	@Override

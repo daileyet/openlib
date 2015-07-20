@@ -92,7 +92,7 @@ public class ViMixerConfigure {
 
 	@Override
 	public String toString() {
-		return "ViMixerConfigureP [configureName=" + configureName
+		return "ViMixerConfigure [configureName=" + configureName
 				+ ", secretKey=" + secretKey + ", segmentor=" + segmentor + "]";
 	}
 
@@ -140,10 +140,12 @@ public class ViMixerConfigure {
 	public final void setTempSecretKey(final java.lang.String tempSecretKey) {
 		this.tempSecretKeyProperty().set(tempSecretKey);
 	}
-
-
+	
 	public static void main(String[] args) throws JAXBException {
-		ViMixerConfigure configure= ViMixerConfigure.unmarshal(new File("C:\\Users\\Dailey\\OneDrive\\Documents\\openthinks_vimixer.xml"));
+		ViMixerConfigure configure = 
+				//ViMixerConfigure.unmarshal(new File("E:\\Cloud\\OneDrive\\Documents\\openthinks_vimixer_test.xml"));
+				ViMixerConfigure.unmarshal(new File("C:\\Users\\minjdai\\Desktop\\vimixer.xml"));
 		System.out.println(configure);
 	}
+
 }

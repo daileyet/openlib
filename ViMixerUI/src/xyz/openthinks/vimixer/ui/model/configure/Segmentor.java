@@ -1,10 +1,11 @@
 package xyz.openthinks.vimixer.ui.model.configure;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import xyz.openthinks.crypto.mix.MixSegmentor;
 /**
  * The wrapper of {@link MixSegmentor}, used in {@link ViMixerConfigure}
@@ -14,32 +15,32 @@ import xyz.openthinks.crypto.mix.MixSegmentor;
 @XmlType
 @XmlSeeAlso({ SimpleLinearSegmentor.class,SmartLinearSegmentor.class })
 public abstract class Segmentor {
-	private StringProperty type;
+	private ObjectProperty<SegmentorType> type;
 
 	public Segmentor() {
-		this.type = new SimpleStringProperty();
+		this.type = new SimpleObjectProperty<SegmentorType>();
 	}
 
-	public Segmentor(String type) {
+	public Segmentor(SegmentorType type) {
 		super();
-		this.type = new SimpleStringProperty(type);
+		this.type = new SimpleObjectProperty<SegmentorType>(type);
 	}
 
-	public final StringProperty typeProperty() {
+	public final ObjectProperty<SegmentorType> typeProperty() {
 		return this.type;
 	}
 
-	public final java.lang.String getType() {
+	public final SegmentorType getType() {
 		return this.typeProperty().get();
 	}
 
-	public final void setType(final java.lang.String type) {
+	public final void setType(final SegmentorType type) {
 		this.typeProperty().set(type);
 	}
 
 	@Override
 	public String toString() {
-		return type.get() ;
+		return type.get().toString() ;
 	}
 	
 	public abstract  void refresh(Segmentor otherSeg);
