@@ -27,8 +27,9 @@
                         <ContextMenu fx:id="tableCtxmenu" autoFix="false">
                           <items>
                             <MenuItem fx:id="resetMenuItem" mnemonicParsing="false" onAction="#handResetAction" text="Reset" />
-                              <MenuItem fx:id="clearMenuItem" mnemonicParsing="false" onAction="#handClearAction" text="Clear" />
                               <MenuItem fx:id="resetAllMenuItem" mnemonicParsing="false" onAction="#handResetAllAction" text="Reset All" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem fx:id="clearMenuItem" mnemonicParsing="false" onAction="#handClearAction" text="Clear" />
                               <MenuItem fx:id="clearAllMenuItem" mnemonicParsing="false" onAction="#handClearAllAction" text="Clear All" />
                           </items>
                         </ContextMenu>
