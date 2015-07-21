@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverview;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 
 /**
@@ -57,7 +58,7 @@ public final class BlockFiguresPool {
 	 * 
 	 * @return BlockOverViewFigure
 	 */
-	public static final BlockOverViewFigure currentFigure() {
+	public static final FigureOverview currentFigure() {
 		return currentFigure;
 	}
 

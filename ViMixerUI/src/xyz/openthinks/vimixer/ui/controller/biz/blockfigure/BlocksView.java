@@ -8,7 +8,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import xyz.openthinks.crypto.mix.MixBlocks;
@@ -16,6 +18,7 @@ import xyz.openthinks.crypto.mix.MixTarget;
 import xyz.openthinks.crypto.mix.impl.MixFile;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.MainFrameController;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.Figureable;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
 
@@ -25,7 +28,7 @@ import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
  * @author minjdai
  *
  */
-public class BlocksView extends FlowPane {
+public class BlocksView extends FlowPane implements Figureable{
 	private int block_width = 10, block_height = 10;
 	private int block_arc_width = 3, block_arc_height = 3;
 	private AtomicBoolean initailized = new AtomicBoolean(false);
@@ -33,19 +36,10 @@ public class BlocksView extends FlowPane {
 	// store the  mapping between block unit in file and block unit in UI
 	private ObservableMap<Long, Shape> map=FXCollections.observableHashMap();
 	
-	/**
-	 * check all the elements at the node are initialized or not
-	 * @return
-	 */
 	public boolean isInitialized() {
 		return initailized.get();
 	}
 	
-	/**
-	 * initial all block unit in this UI view
-	 * @param observable
-	 * @param controller
-	 */
 	public void initial(ViFile observable, BaseController controller) {
 		lock.lock();
 		try {
@@ -135,6 +129,19 @@ public class BlocksView extends FlowPane {
 	 */
 	public void setBlock_arc_height(int block_arc_height) {
 		this.block_arc_height = block_arc_height;
+	}
+
+	@Override
+	public Node getView() {
+		return this;
+	}
+
+	@Override
+	public void destory() {
+		if(this.getParent()!=null){
+			((Pane)this.getParent()).getChildren().remove(this);
+		}
+		
 	}
 
 }

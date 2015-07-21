@@ -5,31 +5,26 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.MainFrameController;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.Figureable;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 
-public class ProgressView extends HBox{
+public class ProgressView extends HBox implements Figureable{
 	private ProgressBar progressBar;
 	private Label progressLabel;
 	private AtomicBoolean initailized = new AtomicBoolean(false);
 	private Lock lock = new ReentrantLock();
-	/**
-	 * check all the elements at the node are initialized or not
-	 * @return
-	 */
+	
 	public boolean isInitialized() {
 		return initailized.get();
 	}
 	
-	/**
-	 * initial progress bar in this UI view
-	 * @param observable
-	 * @param controller
-	 */
 	public void initial(ViFile observable, BaseController controller) {
 		lock.lock();
 		try{
@@ -56,6 +51,18 @@ public class ProgressView extends HBox{
 	
 	public void updateProgress(double computeProgress){
 		this.progressBar.setProgress(computeProgress);
+	}
+
+	@Override
+	public Node getView() {
+		return this;
+	}
+
+	@Override
+	public void destory() {
+		if(this.getParent()!=null){
+			((Pane)this.getParent()).getChildren().remove(this);
+		}
 	}
 	
 }
