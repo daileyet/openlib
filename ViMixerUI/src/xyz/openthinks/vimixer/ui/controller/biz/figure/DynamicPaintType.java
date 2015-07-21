@@ -1,4 +1,4 @@
-package xyz.openthinks.vimixer.ui.controller.biz.blockfigure;
+package xyz.openthinks.vimixer.ui.controller.biz.figure;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

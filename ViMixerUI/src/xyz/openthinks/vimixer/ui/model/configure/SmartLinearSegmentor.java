@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import xyz.openthinks.crypto.mix.MixSegmentor;
 import xyz.openthinks.crypto.mix.impl.SmartMixSegment;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.block.BlockOverViewFigure;
+import xyz.openthinks.vimixer.ui.model.ViFile;
 
 @XmlType
 @XmlRootElement(name = "smart-segmentor")
@@ -28,6 +30,11 @@ public class SmartLinearSegmentor extends Segmentor {
 	@Override
 	public MixSegmentor mixSegmentor() {
 		return SmartMixSegment.get();
+	}
+
+	@Override
+	public BlockOverViewFigure valueOf(ViFile viFile) {
+		return new BlockOverViewFigure(viFile);
 	}
 
 }

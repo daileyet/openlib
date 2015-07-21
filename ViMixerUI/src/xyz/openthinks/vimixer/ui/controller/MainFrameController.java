@@ -20,12 +20,9 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
 import xyz.openthinks.vimixer.ui.controller.biz.ProcessMixBizThread;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockFiguresPool;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlocksView;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
-import xyz.openthinks.vimixer.ui.controller.biz.progressfigure.ProgressFiguresPool;
-import xyz.openthinks.vimixer.ui.controller.biz.progressfigure.ProgressOverViewFigure;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverviewPool;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.block.BlocksView;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileInfo;
 import xyz.openthinks.vimixer.ui.model.ViFileStatus;
@@ -115,9 +112,8 @@ public class MainFrameController extends BaseController {
 				|| this.configure().getSecretKey().trim().isEmpty()) {
 			runBtn.setDisable(true);
 		}
-		// start a new thread to monitor the request to show {@link BlocksView}
-		BlockFiguresPool.active();
-		ProgressFiguresPool.active();
+		// start a new thread to monitor the request to show {@link FigureOverview}
+		FigureOverviewPool.active();
 	}
 
 	@FXML
@@ -138,16 +134,7 @@ public class MainFrameController extends BaseController {
 			;
 		else {
 			ViFile viFile = vifileTable.getSelectionModel().getSelectedItem();
-			switch (configure().getSegmentor().getType()) {
-			case SMART:
-				BlockOverViewFigure.valueOf(viFile).with(this)
-						.targetOn(blockPane).push();
-				break;
-			case SIMPLE:
-				ProgressOverViewFigure.valueOf(viFile).with(this)
-						.targetOn(blockPane).push();
-				break;
-			}
+			configure().getSegmentor().valueOf(viFile).with(this).targetOn(blockPane).push();
 		}
 	}
 
@@ -187,14 +174,7 @@ public class MainFrameController extends BaseController {
 				.getSelectedItems();
 		for (ViFile viFile : viFiles) {
 			viFile.reset();
-			switch (configure().getSegmentor().getType()) {
-			case SMART:
-				BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
-				break;
-			case SIMPLE:
-				ProgressOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
-				break;
-			}
+			configure().getSegmentor().valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
 		}
 	}
 
@@ -203,14 +183,7 @@ public class MainFrameController extends BaseController {
 		ObservableList<ViFile> viFiles = this.listProperty().get();
 		for (ViFile viFile : viFiles) {
 			viFile.reset();
-			switch (configure().getSegmentor().getType()) {
-			case SMART:
-				BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
-				break;
-			case SIMPLE:
-				ProgressOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
-				break;
-			}
+			configure().getSegmentor().valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
 		}
 	}
 
@@ -219,28 +192,13 @@ public class MainFrameController extends BaseController {
 		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
 				.getSelectedItems();
 		vifileTable.getItems().removeAll(viFiles);
-		
-		switch (configure().getSegmentor().getType()) {
-		case SMART:
-			BlockFiguresPool.removeAll(viFiles);
-			break;
-		case SIMPLE:
-			ProgressFiguresPool.removeAll(viFiles);
-			break;
-		}
+		FigureOverviewPool.removeAll(viFiles);
 	}
 
 	@FXML
 	private void handClearAllAction() {
 		this.listProperty().get().clear();
-		switch (configure().getSegmentor().getType()) {
-		case SMART:
-			BlockFiguresPool.clear();
-			break;
-		case SIMPLE:
-			ProgressFiguresPool.clear();
-			break;
-		}
+		FigureOverviewPool.clear();
 	}
 
 }

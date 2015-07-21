@@ -3,14 +3,14 @@ package xyz.openthinks.vimixer.ui.controller.biz.figure;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
 import xyz.openthinks.vimixer.ui.model.ViFile;
-
-public class FigureOverview<T extends Figureable> {
-
-	public static BlockOverViewFigure valueOf(ViFile observableItem) {
-		return new BlockOverViewFigure(observableItem);
-	}
+/**
+ * 
+ * @author Dailey
+ *
+ * @param <T> {@link Figureable}
+ */
+public abstract class FigureOverview<T extends Figureable> implements Dynamically {
 
 	protected BaseController controller;
 	protected ViFile observable;
@@ -20,8 +20,7 @@ public class FigureOverview<T extends Figureable> {
 	@SuppressWarnings("unchecked")
 	public FigureOverview(ViFile observableItem) {
 		this.observable = observableItem;
-		this.figureView = FigureOverviewPool.get(observableItem,
-				(Class<? extends FigureOverview<T>>) getClass());
+		this.figureView = FigureOverviewPool.get(observableItem, (Class<? extends FigureOverview<T>>) getClass());
 	}
 
 	/**
@@ -68,8 +67,7 @@ public class FigureOverview<T extends Figureable> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void destory() {
-		T figureView = (T) FigureOverviewPool.get(observable,
-				(Class<? extends FigureOverview<T>>) getClass());
+		T figureView = (T) FigureOverviewPool.get(observable, (Class<? extends FigureOverview<T>>) getClass());
 		if (figureView != null)
 			figureView.destory();
 	}
@@ -78,8 +76,7 @@ public class FigureOverview<T extends Figureable> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((observable == null) ? 0 : observable.hashCode());
+		result = prime * result + ((observable == null) ? 0 : observable.hashCode());
 		return result;
 	}
 
@@ -107,12 +104,13 @@ public class FigureOverview<T extends Figureable> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void push() {
-		if (!this
-				.equals(FigureOverviewPool
-						.currentFigure((Class<? extends FigureOverview<? extends Figureable>>) getClass())))
-			;
+		FigureOverview<T> figureOverview = (FigureOverview<T>) FigureOverviewPool.currentFigure((Class<? extends FigureOverview<? extends Figureable>>) getClass());
+		if (this.equals(figureOverview))
+			;// ignore the same with current instance in pool
 		else
 			FigureOverviewPool.push(this);
 	}
+	
+	
 
 }

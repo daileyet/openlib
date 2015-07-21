@@ -1,4 +1,4 @@
-package xyz.openthinks.vimixer.ui.controller.biz.blockfigure;
+package xyz.openthinks.vimixer.ui.controller.biz.figure.block;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -10,7 +10,8 @@ import xyz.openthinks.vimixer.ui.model.ViFile;
 
 /**
  * {@link BlocksView} cache pool and request queue
- * 
+ * @deprecated
+ * @see FigureOverview
  * @author minjdai
  *
  */
@@ -58,7 +59,7 @@ public final class BlockFiguresPool {
 	 * 
 	 * @return BlockOverViewFigure
 	 */
-	public static final FigureOverview currentFigure() {
+	public static final BlockOverViewFigure currentFigure() {
 		return currentFigure;
 	}
 

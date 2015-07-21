@@ -1,6 +1,6 @@
-package xyz.openthinks.vimixer.ui.controller.biz.blockfigure;
+package xyz.openthinks.vimixer.ui.controller.biz.figure.block;
 
-import static xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType.INITIALIZED_ALL;
+import static xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType.INITIALIZED_ALL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
@@ -13,11 +13,13 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import xyz.openthinks.crypto.mix.MixBlock;
 import xyz.openthinks.crypto.mix.MixBlocks;
 import xyz.openthinks.crypto.mix.MixTarget;
 import xyz.openthinks.crypto.mix.impl.MixFile;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.MainFrameController;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.Figureable;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
@@ -34,7 +36,7 @@ public class BlocksView extends FlowPane implements Figureable{
 	private AtomicBoolean initailized = new AtomicBoolean(false);
 	private Lock lock = new ReentrantLock();
 	// store the  mapping between block unit in file and block unit in UI
-	private ObservableMap<Long, Shape> map=FXCollections.observableHashMap();
+	private ObservableMap<MixBlock, Shape> map=FXCollections.observableHashMap();
 	
 	public boolean isInitialized() {
 		return initailized.get();
@@ -55,7 +57,7 @@ public class BlocksView extends FlowPane implements Figureable{
 				ret.setArcWidth(block_arc_width);
 				ret.setArcHeight(block_arc_height);
 				this.getChildren().add(ret);
-				map.put(mixBlocks.get(i).getPosition(), ret);
+				map.put(mixBlocks.get(i), ret);
 			}
 			initailized.set(true);
 			this.setCache(true);
@@ -71,8 +73,8 @@ public class BlocksView extends FlowPane implements Figureable{
 	 * @param position
 	 * @return
 	 */
-	public Shape find(long position){
-		return map.get(position);
+	public Shape find(MixBlock block){
+		return map.get(block);
 	}
 
 	/**

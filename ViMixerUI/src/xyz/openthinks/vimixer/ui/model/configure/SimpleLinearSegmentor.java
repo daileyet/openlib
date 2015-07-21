@@ -3,12 +3,14 @@ package xyz.openthinks.vimixer.ui.model.configure;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import xyz.openthinks.crypto.mix.MixSegmentor;
-import xyz.openthinks.crypto.mix.impl.DefaultMixSegment;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
+import xyz.openthinks.crypto.mix.MixSegmentor;
+import xyz.openthinks.crypto.mix.impl.DefaultMixSegment;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.progress.ProgressOverViewFigure;
+import xyz.openthinks.vimixer.ui.model.ViFile;
 @XmlType
 @XmlRootElement(name = "simple-segmentor")
 public class SimpleLinearSegmentor extends Segmentor {
@@ -70,5 +72,10 @@ public class SimpleLinearSegmentor extends Segmentor {
 	@Override
 	public MixSegmentor mixSegmentor() {
 		return DefaultMixSegment.get(space.get(), length.get());
+	}
+
+	@Override
+	public ProgressOverViewFigure valueOf(ViFile viFile) {
+		return  new ProgressOverViewFigure(viFile);
 	}
 }

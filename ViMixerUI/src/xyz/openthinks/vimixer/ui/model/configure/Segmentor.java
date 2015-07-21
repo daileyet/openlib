@@ -12,6 +12,9 @@ import xyz.openthinks.crypto.mix.MixSegmentor;
  * @author minjdai
  *
  */
+import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverview;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.Figureable;
+import xyz.openthinks.vimixer.ui.model.ViFile;
 @XmlType
 @XmlSeeAlso({ SimpleLinearSegmentor.class,SmartLinearSegmentor.class })
 public abstract class Segmentor {
@@ -50,5 +53,12 @@ public abstract class Segmentor {
 	 * @return
 	 */
 	public abstract MixSegmentor mixSegmentor();
+	
+	/**
+	 * create a instance of {@link FigureOverview}
+	 * @param viFile {@link ViFile}
+	 * @return {@link FigureOverview}
+	 */
+	public abstract FigureOverview<? extends Figureable> valueOf(ViFile viFile);
 
 }

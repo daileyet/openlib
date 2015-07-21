@@ -1,9 +1,8 @@
 package xyz.openthinks.vimixer.ui.controller.biz;
 
-import i18n.I18n;
-
 import java.util.Date;
 
+import i18n.I18n;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,15 +15,13 @@ import xyz.openthinks.crypto.mix.impl.FileMixer;
 import xyz.openthinks.crypto.mix.impl.MixFile;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
-import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
-import xyz.openthinks.vimixer.ui.controller.biz.progressfigure.ProgressOverViewFigure;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileStatus;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
 
 /**
- * a new thread to process mixing file
+ * a new thread to process mixing file, when start run button clicked
  * 
  * @author minjdai
  *
@@ -33,8 +30,7 @@ public class ProcessMixBizThread extends Thread {
 	private final ObservableList<ViFile> viFiles;
 	private final BaseController controller;
 
-	public ProcessMixBizThread(final BaseController controller,
-			final ObservableList<ViFile> filteredList) {
+	public ProcessMixBizThread(final BaseController controller, final ObservableList<ViFile> filteredList) {
 		this.controller = controller;
 		this.viFiles = filteredList;
 	}
@@ -49,8 +45,7 @@ public class ProcessMixBizThread extends Thread {
 		if (secretKey == null || "".equals(secretKey.trim())) {
 			Alert alert = new Alert(AlertType.ERROR);
 			// alert.setHeaderText("");
-			alert.setContentText(I18n.getMessage(ViMixerBundles.UI,
-					"alert.error.secret.content"));
+			alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "alert.error.secret.content"));
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;
@@ -59,21 +54,16 @@ public class ProcessMixBizThread extends Thread {
 		if (segmentor == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			// alert.setHeaderText("");
-			alert.setContentText(I18n.getMessage(ViMixerBundles.UI,
-					"alert.error.segmentor.content"));
+			alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "alert.error.segmentor.content"));
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;
 		}
 
 		for (ViFile viFile : this.viFiles) {
-			MixTarget mixTarget = new MixFile(viFile.getFile(),
-					segmentor.mixSegmentor());
-			viFile.infoProperty().get()
-					.setBlockLength(mixTarget.blocks().size());
-			Mixer mixer = new FileMixer(mixTarget,
-					DefaultMixStrategy.get(secretKey), new ViMixProcesser(
-							viFile));
+			MixTarget mixTarget = new MixFile(viFile.getFile(), segmentor.mixSegmentor());
+			viFile.infoProperty().get().setBlockLength(mixTarget.blocks().size());
+			Mixer mixer = new FileMixer(mixTarget, DefaultMixStrategy.get(secretKey), new ViMixProcesser(viFile));
 			try {
 				mixer.mix();
 			} catch (InterruptedException e) {
@@ -117,26 +107,9 @@ public class ProcessMixBizThread extends Thread {
 			// super.processed(mixBlock);
 			try {
 				mixBlock.markProcessed();
-				viFile.infoProperty().get().setCurrentProcessedBlock(mixBlock)
-						.increase();
-				switch (controller.configure().getSegmentor().getType()) {
-				case SMART:
-					BlockOverViewFigure
-							.valueOf(viFile)
-							.with(controller)
-							.dynamic(DynamicPaintType.PROCESSED_PARTIAL,
-									mixBlock.getPosition());
-					break;
-				case SIMPLE:
-					ProgressOverViewFigure
-							.valueOf(viFile)
-							.with(controller)
-							.dynamic(
-									DynamicPaintType.PROCESSED_PARTIAL,
-									viFile.infoProperty().get()
-											.computeProgress());
-					break;
-				}
+				viFile.infoProperty().get().setCurrentProcessedBlock(mixBlock).increase();
+				controller.configure().getSegmentor().valueOf(viFile).with(controller)
+						.dynamic(DynamicPaintType.PROCESSED_PARTIAL, viFile.getInfo());
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -146,16 +119,8 @@ public class ProcessMixBizThread extends Thread {
 		public void completed() {
 			try {
 				completeTime = new Date().getTime();
-				switch (controller.configure().getSegmentor().getType()) {
-				case SMART:
-					BlockOverViewFigure.valueOf(viFile).with(controller)
-							.dynamic(DynamicPaintType.PROCESSED_ALL);
-					break;
-				case SIMPLE:
-					ProgressOverViewFigure.valueOf(viFile).with(controller)
-							.dynamic(DynamicPaintType.PROCESSED_ALL);
-					break;
-				}
+				controller.configure().getSegmentor().valueOf(viFile).with(controller)
+						.dynamic(DynamicPaintType.PROCESSED_ALL);
 				this.viFile.statusProperty().set(ViFileStatus.COMPLETED);
 				this.viFile.infoProperty().get().setEndTime(completeTime);
 			} catch (Exception e) {

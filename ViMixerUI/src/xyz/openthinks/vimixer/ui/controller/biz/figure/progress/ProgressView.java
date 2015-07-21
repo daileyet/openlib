@@ -1,4 +1,4 @@
-package xyz.openthinks.vimixer.ui.controller.biz.progressfigure;
+package xyz.openthinks.vimixer.ui.controller.biz.figure.progress;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
@@ -14,7 +14,11 @@ import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.MainFrameController;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.Figureable;
 import xyz.openthinks.vimixer.ui.model.ViFile;
-
+/**
+ * The view include progress bar and label
+ * @author Dailey
+ *
+ */
 public class ProgressView extends HBox implements Figureable{
 	private ProgressBar progressBar;
 	private Label progressLabel;
