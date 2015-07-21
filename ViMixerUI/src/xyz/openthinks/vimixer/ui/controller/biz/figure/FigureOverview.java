@@ -20,7 +20,7 @@ public abstract class FigureOverview<T extends Figureable> implements Dynamicall
 	@SuppressWarnings("unchecked")
 	public FigureOverview(ViFile observableItem) {
 		this.observable = observableItem;
-		this.figureView = FigureOverviewPool.get(observableItem, (Class<? extends FigureOverview<T>>) getClass());
+		this.figureView = (T) FigureOverviewPool.get(observableItem,  (Class<? extends FigureOverview<? extends Figureable>>) getClass());
 	}
 
 	/**
