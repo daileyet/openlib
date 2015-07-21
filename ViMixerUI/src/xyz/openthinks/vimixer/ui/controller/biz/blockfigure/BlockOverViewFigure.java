@@ -56,6 +56,11 @@ public class BlockOverViewFigure {
 		});
 	}
 
+	/**
+	 * Dynamic change block unit which is completed or not start
+	 * @param paintType
+	 * @param positions
+	 */
 	public void dynamic(DynamicPaintType paintType, Long... positions) {
 		Platform.runLater(new Runnable() {
 			@Override

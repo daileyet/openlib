@@ -18,6 +18,7 @@ import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
+import xyz.openthinks.vimixer.ui.controller.biz.progressfigure.ProgressOverViewFigure;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileStatus;
 import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
@@ -48,7 +49,8 @@ public class ProcessMixBizThread extends Thread {
 		if (secretKey == null || "".equals(secretKey.trim())) {
 			Alert alert = new Alert(AlertType.ERROR);
 			// alert.setHeaderText("");
-			alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "alert.error.secret.content"));
+			alert.setContentText(I18n.getMessage(ViMixerBundles.UI,
+					"alert.error.secret.content"));
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;
@@ -57,15 +59,18 @@ public class ProcessMixBizThread extends Thread {
 		if (segmentor == null) {
 			Alert alert = new Alert(AlertType.ERROR);
 			// alert.setHeaderText("");
-			alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "alert.error.segmentor.content"));
+			alert.setContentText(I18n.getMessage(ViMixerBundles.UI,
+					"alert.error.segmentor.content"));
 			alert.initOwner(controller.stage());
 			alert.show();
 			return;
 		}
-		
+
 		for (ViFile viFile : this.viFiles) {
 			MixTarget mixTarget = new MixFile(viFile.getFile(),
 					segmentor.mixSegmentor());
+			viFile.infoProperty().get()
+					.setBlockLength(mixTarget.blocks().size());
 			Mixer mixer = new FileMixer(mixTarget,
 					DefaultMixStrategy.get(secretKey), new ViMixProcesser(
 							viFile));
@@ -89,7 +94,7 @@ public class ProcessMixBizThread extends Thread {
 	 */
 	class ViMixProcesser extends DefaultMixProcesser {
 
-		private ViFile viFile;
+		private final ViFile viFile;
 
 		public ViMixProcesser(ViFile viFile) {
 			super();
@@ -101,7 +106,7 @@ public class ProcessMixBizThread extends Thread {
 			try {
 				super.start();
 				this.viFile.statusProperty().set(ViFileStatus.IN_PROCESSING);
-				this.viFile.getInfo().setStartTime(startTime);
+				this.viFile.infoProperty().get().setStartTime(startTime);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -109,9 +114,29 @@ public class ProcessMixBizThread extends Thread {
 
 		@Override
 		public void processed(MixBlock mixBlock) {
-//			super.processed(mixBlock);
+			// super.processed(mixBlock);
 			try {
-				BlockOverViewFigure.valueOf(viFile).with(controller).dynamic(DynamicPaintType.PROCESSED_PARTIAL,mixBlock.getPosition());
+				mixBlock.markProcessed();
+				viFile.infoProperty().get().setCurrentProcessedBlock(mixBlock)
+						.increase();
+				switch (controller.configure().getSegmentor().getType()) {
+				case SMART:
+					BlockOverViewFigure
+							.valueOf(viFile)
+							.with(controller)
+							.dynamic(DynamicPaintType.PROCESSED_PARTIAL,
+									mixBlock.getPosition());
+					break;
+				case SIMPLE:
+					ProgressOverViewFigure
+							.valueOf(viFile)
+							.with(controller)
+							.dynamic(
+									DynamicPaintType.PROCESSED_PARTIAL,
+									viFile.infoProperty().get()
+											.computeProgress());
+					break;
+				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -119,11 +144,20 @@ public class ProcessMixBizThread extends Thread {
 
 		@Override
 		public void completed() {
-			 try {
+			try {
 				completeTime = new Date().getTime();
-				BlockOverViewFigure.valueOf(viFile).with(controller).dynamic(DynamicPaintType.PROCESSED_ALL);
+				switch (controller.configure().getSegmentor().getType()) {
+				case SMART:
+					BlockOverViewFigure.valueOf(viFile).with(controller)
+							.dynamic(DynamicPaintType.PROCESSED_ALL);
+					break;
+				case SIMPLE:
+					ProgressOverViewFigure.valueOf(viFile).with(controller)
+							.dynamic(DynamicPaintType.PROCESSED_ALL);
+					break;
+				}
 				this.viFile.statusProperty().set(ViFileStatus.COMPLETED);
-				this.viFile.getInfo().setEndTime(completeTime);
+				this.viFile.infoProperty().get().setEndTime(completeTime);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}

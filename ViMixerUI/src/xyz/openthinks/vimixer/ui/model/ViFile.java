@@ -71,6 +71,11 @@ public class ViFile {
 			final xyz.openthinks.vimixer.ui.model.ViFileStatus status) {
 		this.statusProperty().set(status);
 	}
+	
+	public final void reset(){
+		this.status.set(ViFileStatus.NOT_START);
+		this.info.get().setBlockLength(0L).setCurrentProcessedBlock(null).setStartTime(null).setEndTime(null).setProcessedBlocks(0L);
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

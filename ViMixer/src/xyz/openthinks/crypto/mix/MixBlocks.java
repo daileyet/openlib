@@ -25,7 +25,7 @@ public final class MixBlocks implements Iterable<MixBlock>{
 		list.addAll(blocks);
 	}
 	
-	public int size(){
+	public long size(){
 		return list.size();
 	}
 	

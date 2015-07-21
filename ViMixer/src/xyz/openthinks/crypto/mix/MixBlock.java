@@ -23,7 +23,11 @@ public abstract class MixBlock {
 	public String toString() {
 		return "MixBlock [segment=" + segment + "]";
 	}
-
+	
+	public void markProcessed(){
+		setStatus(MixBlockStatus.PROCESSED);
+	}
+	
 	/**
 	 * reference its owner {@link MixTarget}
 	 * 

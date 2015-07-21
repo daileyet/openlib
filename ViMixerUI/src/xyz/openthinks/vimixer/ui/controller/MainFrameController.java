@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -22,7 +22,10 @@ import javafx.scene.layout.FlowPane;
 import xyz.openthinks.vimixer.ui.controller.biz.ProcessMixBizThread;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockFiguresPool;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlockOverViewFigure;
+import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.BlocksView;
 import xyz.openthinks.vimixer.ui.controller.biz.blockfigure.DynamicPaintType;
+import xyz.openthinks.vimixer.ui.controller.biz.progressfigure.ProgressFiguresPool;
+import xyz.openthinks.vimixer.ui.controller.biz.progressfigure.ProgressOverViewFigure;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileInfo;
 import xyz.openthinks.vimixer.ui.model.ViFileStatus;
@@ -59,7 +62,7 @@ public class MainFrameController extends BaseController {
 	@FXML
 	private ScrollPane bottomScrollPane;
 
-	public ObservableValue<Number> getBlockPaneWidthProperty(){
+	public DoubleBinding getBlockPaneWidthProperty(){
 		return vifileTable.widthProperty().add(-15);
 	}
 	
@@ -114,6 +117,7 @@ public class MainFrameController extends BaseController {
 		}
 		// start a new thread to monitor the request to show {@link BlocksView}
 		BlockFiguresPool.active();
+		ProgressFiguresPool.active();
 	}
 
 	@FXML
@@ -134,9 +138,16 @@ public class MainFrameController extends BaseController {
 			;
 		else {
 			ViFile viFile = vifileTable.getSelectionModel().getSelectedItem();
-			BlockOverViewFigure.valueOf(viFile).with(this)
-				.targetOn(blockPane).push();
-			
+			switch (configure().getSegmentor().getType()) {
+			case SMART:
+				BlockOverViewFigure.valueOf(viFile).with(this)
+						.targetOn(blockPane).push();
+				break;
+			case SIMPLE:
+				ProgressOverViewFigure.valueOf(viFile).with(this)
+						.targetOn(blockPane).push();
+				break;
+			}
 		}
 	}
 
@@ -175,8 +186,15 @@ public class MainFrameController extends BaseController {
 		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
 				.getSelectedItems();
 		for (ViFile viFile : viFiles) {
-			viFile.setStatus(ViFileStatus.NOT_START);
-			BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
+			viFile.reset();
+			switch (configure().getSegmentor().getType()) {
+			case SMART:
+				BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
+				break;
+			case SIMPLE:
+				ProgressOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
+				break;
+			}
 		}
 	}
 
@@ -184,8 +202,15 @@ public class MainFrameController extends BaseController {
 	private void handResetAllAction() {
 		ObservableList<ViFile> viFiles = this.listProperty().get();
 		for (ViFile viFile : viFiles) {
-			viFile.setStatus(ViFileStatus.NOT_START);
-			BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
+			viFile.reset();
+			switch (configure().getSegmentor().getType()) {
+			case SMART:
+				BlockOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
+				break;
+			case SIMPLE:
+				ProgressOverViewFigure.valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
+				break;
+			}
 		}
 	}
 
@@ -194,13 +219,28 @@ public class MainFrameController extends BaseController {
 		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
 				.getSelectedItems();
 		vifileTable.getItems().removeAll(viFiles);
-		BlockFiguresPool.removeAll(viFiles);
+		
+		switch (configure().getSegmentor().getType()) {
+		case SMART:
+			BlockFiguresPool.removeAll(viFiles);
+			break;
+		case SIMPLE:
+			ProgressFiguresPool.removeAll(viFiles);
+			break;
+		}
 	}
 
 	@FXML
 	private void handClearAllAction() {
 		this.listProperty().get().clear();
-		BlockFiguresPool.clear();
+		switch (configure().getSegmentor().getType()) {
+		case SMART:
+			BlockFiguresPool.clear();
+			break;
+		case SIMPLE:
+			ProgressFiguresPool.clear();
+			break;
+		}
 	}
 
 }
