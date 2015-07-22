@@ -42,29 +42,23 @@ public class ConfigurePaneController extends BaseController {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		secretStoredField.setVisible(false);
-		spaceValueLabel.textProperty().bindBidirectional(
-				spaceSlider.valueProperty(), new NumberStringConverter());
-		lengthValuelabel.textProperty().bindBidirectional(
-				lengthSlider.valueProperty(), new NumberStringConverter());
+		spaceValueLabel.textProperty().bindBidirectional(spaceSlider.valueProperty(), new NumberStringConverter());
+		lengthValuelabel.textProperty().bindBidirectional(lengthSlider.valueProperty(), new NumberStringConverter());
 
 		typeCombox.getItems().add(SmartLinearSegmentor.TYPE);
 		typeCombox.getItems().add(SimpleLinearSegmentor.TYPE);
-		typeCombox.valueProperty().addListener(
-				(observable, oldvalue, newvalue) -> {
-					if (SmartLinearSegmentor.TYPE==newvalue) {
-						spaceSlider.setDisable(true);
-						lengthSlider.setDisable(true);
-						ConfigurePaneController.this.configure().setSegmentor(
-								SMART);
-					} else {
-						spaceSlider.setDisable(false);
-						lengthSlider.setDisable(false);
-						SIMPLE.refresh(ConfigurePaneController.this.configure()
-								.getSegmentor());
-						ConfigurePaneController.this.configure().setSegmentor(
-								SIMPLE);
-					}
-				});
+		typeCombox.valueProperty().addListener((observable, oldvalue, newvalue) -> {
+			if (SmartLinearSegmentor.TYPE == newvalue) {
+				spaceSlider.setDisable(true);
+				lengthSlider.setDisable(true);
+				ConfigurePaneController.this.configure().setSegmentor(SMART);
+			} else {
+				spaceSlider.setDisable(false);
+				lengthSlider.setDisable(false);
+				SIMPLE.refresh(ConfigurePaneController.this.configure().getSegmentor());
+				ConfigurePaneController.this.configure().setSegmentor(SIMPLE);
+			}
+		});
 		spaceSlider.valueProperty().bindBidirectional(SIMPLE.spaceProperty());
 		lengthSlider.valueProperty().bindBidirectional(SIMPLE.lengthProperty());
 	}
@@ -77,26 +71,27 @@ public class ConfigurePaneController extends BaseController {
 		secretField.textProperty().bindBidirectional(configure.tempSecretKeyProperty());
 		secretStoredField.textProperty().bindBidirectional(configure.secretKeyProperty());
 		//update real secret key by MD5
-		secretField.focusedProperty().addListener((observable,oldvalue,newvalue)->{
-			if(oldvalue==true && newvalue == false){
-				if(configure.getTempSecretKey()!=null && !configure.getTempSecretKey().trim().isEmpty()
-						&& !configure.getTempSecretKey().equals(configure.getSecretKey())){
-					MD5 md5 = new MD5();
-					configure.setSecretKey(md5.getMD5ofStr(configure.getTempSecretKey()));
-				}else{
-					configure.setSecretKey("");
-				}
-			}
-		});
-		
+		secretField.focusedProperty().addListener(
+				(observable, oldvalue, newvalue) -> {
+					if (oldvalue == true && newvalue == false) {
+						if (configure.getTempSecretKey() != null && !configure.getTempSecretKey().trim().isEmpty()
+								&& !configure.getTempSecretKey().equals(configure.getSecretKey())) {
+							MD5 md5 = new MD5();
+							configure.setSecretKey(md5.getMD5ofStr(configure.getTempSecretKey()));
+						} else {
+							configure.setSecretKey("");
+						}
+					}
+				});
+
 		Segmentor segmentor = configure.getSegmentor();
 		if (segmentor == null) {
 			segmentor = SMART;
 		}
 		typeCombox.valueProperty().bindBidirectional(segmentor.typeProperty());
-		
+
 		//if(segmentor instanceof SimpleLinearSegmentor)
-			SIMPLE.refresh(segmentor);
+		SIMPLE.refresh(segmentor);
 	}
 
 }

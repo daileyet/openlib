@@ -35,7 +35,7 @@ import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
  * @author minjdai
  *
  */
-public abstract class BaseController implements Initializable,Observer {
+public abstract class BaseController implements Initializable, Observer {
 	private static final String PREF_FILE = "filePath";
 	private TransferData transfer;
 	protected ResourceBundle resourceBundle;
@@ -51,19 +51,19 @@ public abstract class BaseController implements Initializable,Observer {
 		I18nApplicationLocale.getInstance().addObserver(this);
 		this.resourceBundle = resources;
 	}
-	
+
 	@Override
 	public void update(Observable o, Object newlocale) {
-		this.resourceBundle = I18n.getResourceBundle(ViMixerBundles.UI, (Locale)newlocale);
+		this.resourceBundle = I18n.getResourceBundle(ViMixerBundles.UI, (Locale) newlocale);
 	}
 
-	protected String getBundleMessage(String bundleKey){
-		if(this.resourceBundle==null){
+	protected String getBundleMessage(String bundleKey) {
+		if (this.resourceBundle == null) {
 			return "";
 		}
 		return this.resourceBundle.getString(bundleKey);
 	}
-	
+
 	protected void afterSetTransfer() {
 	}
 

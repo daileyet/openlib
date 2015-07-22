@@ -25,24 +25,24 @@
 */
 package xyz.openthinks.vimixer.ui.util;
 
-
 /**
  * @author dailey.yet@outlook.com
  *
  */
 public final class VersionGetter {
-	public final static VersionGetter valueOf(Class<?> appClz){
+	public final static VersionGetter valueOf(Class<?> appClz) {
 		return new VersionGetter(appClz);
 	}
-	
+
 	private Class<?> appClz;
+
 	private VersionGetter(Class<?> appClz) {
-		this.appClz=appClz;
+		this.appClz = appClz;
 	}
-	
-	public final String get(){
+
+	public final String get() {
 		AppVersion appVersion = appClz.getAnnotation(AppVersion.class);
-		if(appVersion!=null){
+		if (appVersion != null) {
 			return appVersion.value();
 		}
 		return "1.0";

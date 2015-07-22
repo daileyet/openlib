@@ -80,18 +80,18 @@ public class ViFileInfo {
 		return this;
 	}
 
-	public Double computeProgress(){
-		if(this.blockLength!=null && this.blockLength!=0L){
-			return (this.processedBlocks.get()*1.0D)/this.blockLength;
+	public Double computeProgress() {
+		if (this.blockLength != null && this.blockLength != 0L) {
+			return (this.processedBlocks.get() * 1.0D) / this.blockLength;
 		}
 		return 0D;
 	}
-	
-	public String computeProgressPercent(){
-		Double percent = computeProgress()*100;
-		return percent.intValue()+"%";
+
+	public String computeProgressPercent() {
+		Double percent = computeProgress() * 100;
+		return percent.intValue() + "%";
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();

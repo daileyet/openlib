@@ -59,24 +59,19 @@ public class MainFrameController extends BaseController {
 	@FXML
 	private ScrollPane bottomScrollPane;
 
-	public DoubleBinding getBlockPaneWidthProperty(){
+	public DoubleBinding getBlockPaneWidthProperty() {
 		return vifileTable.widthProperty().add(-15);
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
-		idColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.idProperty());
-		filePathColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.filePathProperty());
-		statusColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.statusProperty());
-		infoColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.infoProperty());
+		idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		filePathColumn.setCellValueFactory(cellData -> cellData.getValue().filePathProperty());
+		statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
+		infoColumn.setCellValueFactory(cellData -> cellData.getValue().infoProperty());
 		tableCtxmenu.setOnShowing((event) -> {
-			boolean isShow = !vifileTable.getSelectionModel()
-					.getSelectedItems().isEmpty();
+			boolean isShow = !vifileTable.getSelectionModel().getSelectedItems().isEmpty();
 			resetMenuItem.setVisible(isShow);
 			clearMenuItem.setVisible(isShow);
 			isShow = !vifileTable.getItems().isEmpty();
@@ -87,8 +82,7 @@ public class MainFrameController extends BaseController {
 		// clearAllMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getItems()));
 		// resetMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
 		// clearMenuItem.visibleProperty().bind(Bindings.isNotEmpty(vifileTable.getSelectionModel().getSelectedItems()));
-		blockPane.prefWidthProperty().bind(
-				vifileTable.widthProperty().add(-15));
+		blockPane.prefWidthProperty().bind(vifileTable.widthProperty().add(-15));
 	}
 
 	@Override
@@ -96,20 +90,17 @@ public class MainFrameController extends BaseController {
 		super.afterSetTransfer();
 		// bind table view item property to data model
 		vifileTable.itemsProperty().bindBidirectional(this.listProperty());
-		configPathField.textProperty().bind(
-				this.configure().storedFileProperty());
+		configPathField.textProperty().bind(this.configure().storedFileProperty());
 		// bind run button disable or not
-		this.configure().secretKeyProperty()
-				.addListener((observable, oldvalue, newvalue) -> {
-					if (newvalue == null || newvalue.trim().isEmpty()) {
-						runBtn.setDisable(true);
-					} else {
-						runBtn.setDisable(false);
-					}
-				});
+		this.configure().secretKeyProperty().addListener((observable, oldvalue, newvalue) -> {
+			if (newvalue == null || newvalue.trim().isEmpty()) {
+				runBtn.setDisable(true);
+			} else {
+				runBtn.setDisable(false);
+			}
+		});
 		// initial run button disable or not
-		if (this.configure().getSecretKey() == null
-				|| this.configure().getSecretKey().trim().isEmpty()) {
+		if (this.configure().getSecretKey() == null || this.configure().getSecretKey().trim().isEmpty()) {
 			runBtn.setDisable(true);
 		}
 		// start a new thread to monitor the request to show {@link FigureOverview}
@@ -120,8 +111,7 @@ public class MainFrameController extends BaseController {
 	private void handStartAction() {
 		ObservableList<ViFile> viFiles = this.listProperty().get();
 		FilteredList<ViFile> filteredList = viFiles
-				.filtered(testFile -> ViFileStatus.NOT_START == testFile
-						.getStatus());
+				.filtered(testFile -> ViFileStatus.NOT_START == testFile.getStatus());
 		new ProcessMixBizThread(this, filteredList).start();
 	}
 
@@ -170,8 +160,7 @@ public class MainFrameController extends BaseController {
 
 	@FXML
 	private void handResetAction() {
-		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
-				.getSelectedItems();
+		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel().getSelectedItems();
 		for (ViFile viFile : viFiles) {
 			viFile.reset();
 			configure().getSegmentor().valueOf(viFile).with(this).dynamic(DynamicPaintType.INITIALIZED_ALL);
@@ -189,8 +178,7 @@ public class MainFrameController extends BaseController {
 
 	@FXML
 	private void handClearAction() {
-		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel()
-				.getSelectedItems();
+		ObservableList<ViFile> viFiles = vifileTable.getSelectionModel().getSelectedItems();
 		vifileTable.getItems().removeAll(viFiles);
 		FigureOverviewPool.removeAll(viFiles);
 	}

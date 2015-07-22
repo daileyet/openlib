@@ -30,30 +30,28 @@ import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
  * @author minjdai
  *
  */
-public class BlocksView extends FlowPane implements Figureable{
+public class BlocksView extends FlowPane implements Figureable {
 	private int block_width = 10, block_height = 10;
 	private int block_arc_width = 3, block_arc_height = 3;
 	private AtomicBoolean initailized = new AtomicBoolean(false);
 	private Lock lock = new ReentrantLock();
 	// store the  mapping between block unit in file and block unit in UI
-	private ObservableMap<MixBlock, Shape> map=FXCollections.observableHashMap();
-	
+	private ObservableMap<MixBlock, Shape> map = FXCollections.observableHashMap();
+
 	public boolean isInitialized() {
 		return initailized.get();
 	}
-	
+
 	public void initial(ViFile observable, BaseController controller) {
 		lock.lock();
 		try {
 			DynamicPaintType paintType = INITIALIZED_ALL;
-			paintType=observable.getStatus().paintType();
+			paintType = observable.getStatus().paintType();
 			Segmentor segmentor = controller.configure().getSegmentor();
-			MixTarget mixTarget = new MixFile(observable.getFile(),
-					segmentor.mixSegmentor());
+			MixTarget mixTarget = new MixFile(observable.getFile(), segmentor.mixSegmentor());
 			MixBlocks mixBlocks = mixTarget.blocks();
 			for (int i = 0; i < mixBlocks.size(); i++) {
-				Rectangle ret = new Rectangle(block_width, block_height,
-						paintType.color());
+				Rectangle ret = new Rectangle(block_width, block_height, paintType.color());
 				ret.setArcWidth(block_arc_width);
 				ret.setArcHeight(block_arc_height);
 				this.getChildren().add(ret);
@@ -62,18 +60,18 @@ public class BlocksView extends FlowPane implements Figureable{
 			initailized.set(true);
 			this.setCache(true);
 			//bind this overview pane width to the right width property in MainFrame
-			this.prefWidthProperty().bind(((MainFrameController)controller).getBlockPaneWidthProperty());
+			this.prefWidthProperty().bind(((MainFrameController) controller).getBlockPaneWidthProperty());
 		} finally {
 			lock.unlock();
 		}
 	}
-	
+
 	/**
 	 * find the block unit UI by block unit position in file
 	 * @param position
 	 * @return
 	 */
-	public Shape find(MixBlock block){
+	public Shape find(MixBlock block) {
 		return map.get(block);
 	}
 
@@ -140,10 +138,10 @@ public class BlocksView extends FlowPane implements Figureable{
 
 	@Override
 	public void destory() {
-		if(this.getParent()!=null){
-			((Pane)this.getParent()).getChildren().remove(this);
+		if (this.getParent() != null) {
+			((Pane) this.getParent()).getChildren().remove(this);
 		}
-		
+
 	}
 
 }

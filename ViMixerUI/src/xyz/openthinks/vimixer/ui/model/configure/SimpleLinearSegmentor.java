@@ -11,6 +11,7 @@ import xyz.openthinks.crypto.mix.MixSegmentor;
 import xyz.openthinks.crypto.mix.impl.DefaultMixSegment;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.progress.ProgressOverViewFigure;
 import xyz.openthinks.vimixer.ui.model.ViFile;
+
 @XmlType
 @XmlRootElement(name = "simple-segmentor")
 public class SimpleLinearSegmentor extends Segmentor {
@@ -18,7 +19,7 @@ public class SimpleLinearSegmentor extends Segmentor {
 
 	private IntegerProperty space;
 	private LongProperty length;
-	
+
 	public SimpleLinearSegmentor() {
 		this(0, 0);
 	}
@@ -56,14 +57,13 @@ public class SimpleLinearSegmentor extends Segmentor {
 
 	@Override
 	public String toString() {
-		return "SimpleLinearSegmentor [space=" + space + ", length=" + length
-				+ ", getType()=" + getType() + "]";
+		return "SimpleLinearSegmentor [space=" + space + ", length=" + length + ", getType()=" + getType() + "]";
 	}
 
 	@Override
 	public void refresh(Segmentor otherSeg) {
-		if(otherSeg instanceof SimpleLinearSegmentor){
-			SimpleLinearSegmentor other = (SimpleLinearSegmentor)otherSeg;
+		if (otherSeg instanceof SimpleLinearSegmentor) {
+			SimpleLinearSegmentor other = (SimpleLinearSegmentor) otherSeg;
 			setLength(other.getLength());
 			setSpace(other.getSpace());
 		}
@@ -76,6 +76,6 @@ public class SimpleLinearSegmentor extends Segmentor {
 
 	@Override
 	public ProgressOverViewFigure valueOf(ViFile viFile) {
-		return  new ProgressOverViewFigure(viFile);
+		return new ProgressOverViewFigure(viFile);
 	}
 }

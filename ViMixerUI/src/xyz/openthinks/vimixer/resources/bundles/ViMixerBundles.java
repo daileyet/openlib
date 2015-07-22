@@ -2,9 +2,9 @@ package xyz.openthinks.vimixer.resources.bundles;
 
 import i18n.implement.bundle.IBundleMessageType;
 
-public enum ViMixerBundles implements IBundleMessageType{
-	UI,LOG,MODEL;
-	
+public enum ViMixerBundles implements IBundleMessageType {
+	UI, LOG, MODEL;
+
 	@Override
 	public String value() {
 		return toString() + ":" + BASE_PACK_DIR + toString();
@@ -35,7 +35,7 @@ public enum ViMixerBundles implements IBundleMessageType{
 		}
 		return packType;
 	}
-	
+
 	public static final String BASE_PACK_DIR = "xyz/openthinks/vimixer/resources/bundles/";
 
 }

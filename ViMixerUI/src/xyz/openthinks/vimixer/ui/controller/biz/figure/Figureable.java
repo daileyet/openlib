@@ -5,6 +5,7 @@ import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.block.BlocksView;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.progress.ProgressView;
 import xyz.openthinks.vimixer.ui.model.ViFile;
+
 /**
  * graphic for one {@link ViFile} view, render and process
  * @see BlocksView
@@ -26,7 +27,7 @@ public interface Figureable {
 	 * @param controller {@link BaseController}
 	 */
 	public abstract void initial(ViFile observable, BaseController controller);
-	
+
 	/**
 	 * get base view for this figure
 	 * @return {@link Node}

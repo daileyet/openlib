@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.model.ViFile;
+
 /**
  * 
  * @author Dailey
@@ -20,7 +21,8 @@ public abstract class FigureOverview<T extends Figureable> implements Dynamicall
 	@SuppressWarnings("unchecked")
 	public FigureOverview(ViFile observableItem) {
 		this.observable = observableItem;
-		this.figureView = (T) FigureOverviewPool.get(observableItem,  (Class<? extends FigureOverview<? extends Figureable>>) getClass());
+		this.figureView = (T) FigureOverviewPool.get(observableItem,
+				(Class<? extends FigureOverview<? extends Figureable>>) getClass());
 	}
 
 	/**
@@ -104,13 +106,12 @@ public abstract class FigureOverview<T extends Figureable> implements Dynamicall
 	 */
 	@SuppressWarnings("unchecked")
 	public void push() {
-		FigureOverview<T> figureOverview = (FigureOverview<T>) FigureOverviewPool.currentFigure((Class<? extends FigureOverview<? extends Figureable>>) getClass());
+		FigureOverview<T> figureOverview = (FigureOverview<T>) FigureOverviewPool
+				.currentFigure((Class<? extends FigureOverview<? extends Figureable>>) getClass());
 		if (this.equals(figureOverview))
 			;// ignore the same with current instance in pool
 		else
 			FigureOverviewPool.push(this);
 	}
-	
-	
 
 }

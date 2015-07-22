@@ -38,18 +38,18 @@ public final class BlockFiguresPool {
 	}
 
 	public final static void removeAll(List<ViFile> vifiles) {
-		if(vifiles==null)
+		if (vifiles == null)
 			return;
-		for(ViFile vifile:vifiles){
+		for (ViFile vifile : vifiles) {
 			caches.remove(vifile);
 		}
-		if(currentFigure!=null){
+		if (currentFigure != null) {
 			currentFigure.destory();
 		}
 	}
 
 	public final static void clear() {
-		if(currentFigure!=null){
+		if (currentFigure != null) {
 			currentFigure.destory();
 		}
 		caches.clear();

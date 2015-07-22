@@ -1,13 +1,14 @@
 package xyz.openthinks.vimixer.ui.controller.biz.figure;
 
 import xyz.openthinks.vimixer.ui.model.ViFileInfo;
+
 /**
  * Dynamic change interface for {@link FigureOverview}
  * @author minjdai
  *
  */
 public interface Dynamically {
-	
+
 	/**
 	 * dynamic change in {@link FigureOverview}
 	 * @param paintType {@link DynamicPaintType}

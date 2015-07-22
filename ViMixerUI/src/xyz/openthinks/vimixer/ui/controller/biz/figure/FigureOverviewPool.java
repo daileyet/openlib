@@ -50,7 +50,6 @@ public class FigureOverviewPool {
 		return get(observableItem, figureOverviewClz);
 	}
 
-
 	/**
 	 * get current {@link FigureOverview} by key
 	 * 
@@ -113,8 +112,8 @@ public class FigureOverviewPool {
 				try {
 					picked = concurrentLinkedQueue.take();
 					@SuppressWarnings("unchecked")
-					FigureOverview<? extends Figureable> current = currentFigure(
-							(Class<? extends FigureOverview<? extends Figureable>>) picked.getClass());
+					FigureOverview<? extends Figureable> current = currentFigure((Class<? extends FigureOverview<? extends Figureable>>) picked
+							.getClass());
 					if (current == picked) {
 						picked.render();
 					}
@@ -142,7 +141,7 @@ public class FigureOverviewPool {
 		}
 		return figureable;
 	}
-	
+
 	// as the value in caches; ViFile <-> FigureableMap
 	// Class<FigureOverview> <-> Figureable
 	private final static class FigureableMap {

@@ -22,41 +22,40 @@ import xyz.openthinks.vimixer.ui.model.ViFileSupportType;
 import xyz.openthinks.vimixer.ui.util.VersionGetter;
 
 public class RootLayoutController extends BaseController {
-	
+
 	@FXML
 	private RadioMenuItem en_Menuitem;
 	@FXML
 	private RadioMenuItem zh_Menuitem;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		//initial locale menu item selected
 		Locale currentLocale = I18nApplicationLocale.getInstance().getCurrentLocale();
-		if(Locale.CHINA.equals(currentLocale) || Locale.CHINESE.equals(currentLocale)){
+		if (Locale.CHINA.equals(currentLocale) || Locale.CHINESE.equals(currentLocale)) {
 			zh_Menuitem.setSelected(true);
-		}else{
+		} else {
 			en_Menuitem.setSelected(true);
 		}
-		
+
 	}
-	
+
 	@Override
 	protected void afterSetTransfer() {
 		super.afterSetTransfer();
 		File storeFile = this.lastConfigureFile();
 		loadConfigure(storeFile);
 	}
-	
+
 	@FXML
 	private void handAddAction() {
 		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extensionFilter1 = new FileChooser.ExtensionFilter(
-				"video files", ViFileSupportType.SUPPORT_LIST_VIDEO);
-		FileChooser.ExtensionFilter extensionFilter2 = new FileChooser.ExtensionFilter(
-				"image files", ViFileSupportType.SUPPORT_LIST_IMAGE);
-		fileChooser.getExtensionFilters().addAll(extensionFilter1,
-				extensionFilter2);
+		FileChooser.ExtensionFilter extensionFilter1 = new FileChooser.ExtensionFilter("video files",
+				ViFileSupportType.SUPPORT_LIST_VIDEO);
+		FileChooser.ExtensionFilter extensionFilter2 = new FileChooser.ExtensionFilter("image files",
+				ViFileSupportType.SUPPORT_LIST_IMAGE);
+		fileChooser.getExtensionFilters().addAll(extensionFilter1, extensionFilter2);
 		List<File> files = fileChooser.showOpenMultipleDialog(this.stage());
 		if (files != null) {
 			for (File file : files) {
@@ -64,7 +63,6 @@ public class RootLayoutController extends BaseController {
 			}
 		}
 	}
-
 
 	@FXML
 	private void handQuitAction() {
@@ -89,8 +87,7 @@ public class RootLayoutController extends BaseController {
 	@FXML
 	private void handSaveAsConfigure() {
 		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"XML files (*.xml)", "*.xml");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
 		File file = fileChooser.showSaveDialog(this.stage());
@@ -100,28 +97,28 @@ public class RootLayoutController extends BaseController {
 	@FXML
 	private void handLoadConfigure() {
 		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"XML files (*.xml)", "*.xml");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
 		File file = fileChooser.showOpenDialog(this.stage());
 		this.loadConfigure(file);
 	}
-	
+
 	@FXML
-	private void handAbout(){
-		Alert alert =new Alert(AlertType.INFORMATION);
+	private void handAbout() {
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(getBundleMessage("app.title"));
 		alert.setHeaderText(getBundleMessage("about.alert.header"));
-		String version  = VersionGetter.valueOf(ViMixerApp.class).get();
-		alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "about.alert.content", version,"Dailey Dai","http://openthinks.xyz"));
+		String version = VersionGetter.valueOf(ViMixerApp.class).get();
+		alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "about.alert.content", version, "Dailey Dai",
+				"http://openthinks.xyz"));
 		alert.initOwner(this.stage());
 		alert.showAndWait();
 	}
-	
+
 	@FXML
-	private void handLocaleChange(Event event){
-		String menuitemId = ((RadioMenuItem)event.getSource()).getId();
+	private void handLocaleChange(Event event) {
+		String menuitemId = ((RadioMenuItem) event.getSource()).getId();
 		String changeToLocale = menuitemId.split("_")[0];
 		Locale locale = new Locale.Builder().setLanguage(changeToLocale).build();
 		I18nApplicationLocale.getInstance().changeCurrentLocale(locale);

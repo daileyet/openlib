@@ -4,7 +4,7 @@ import i18n.I18n;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
 
-public enum ViFileStatus{
+public enum ViFileStatus {
 	NOT_START(DynamicPaintType.INITIALIZED_ALL), IN_PROCESSING(DynamicPaintType.INITIALIZED_ALL), COMPLETED(
 			DynamicPaintType.PROCESSED_ALL);
 

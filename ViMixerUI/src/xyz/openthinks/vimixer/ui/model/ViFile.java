@@ -26,8 +26,8 @@ public class ViFile {
 		fileInfo.setFileLength(new File(filePath).length());
 		this.info = new SimpleObjectProperty<ViFileInfo>(fileInfo);
 	}
-	
-	public ViFile(File file){
+
+	public ViFile(File file) {
 		this(file.getAbsolutePath());
 	}
 
@@ -46,8 +46,8 @@ public class ViFile {
 	public final StringProperty filePathProperty() {
 		return this.filePath;
 	}
-	
-	public final File getFile(){
+
+	public final File getFile() {
 		return new File(getFilePath());
 	}
 
@@ -67,14 +67,14 @@ public class ViFile {
 		return this.statusProperty().get();
 	}
 
-	public final void setStatus(
-			final xyz.openthinks.vimixer.ui.model.ViFileStatus status) {
+	public final void setStatus(final xyz.openthinks.vimixer.ui.model.ViFileStatus status) {
 		this.statusProperty().set(status);
 	}
-	
-	public final void reset(){
+
+	public final void reset() {
 		this.status.set(ViFileStatus.NOT_START);
-		this.info.get().setBlockLength(0L).setCurrentProcessedBlock(null).setStartTime(null).setEndTime(null).setProcessedBlocks(0L);
+		this.info.get().setBlockLength(0L).setCurrentProcessedBlock(null).setStartTime(null).setEndTime(null)
+				.setProcessedBlocks(0L);
 	}
 
 	/* (non-Javadoc)
@@ -84,8 +84,7 @@ public class ViFile {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((filePath == null) ? 0 : filePath.get().hashCode());
+		result = prime * result + ((filePath == null) ? 0 : filePath.get().hashCode());
 		return result;
 	}
 
@@ -104,7 +103,7 @@ public class ViFile {
 		if (filePath == null) {
 			if (other.filePath != null)
 				return false;
-		//compare the value in the property
+			//compare the value in the property
 		} else if (!filePath.get().equals(other.filePath.get()))
 			return false;
 		return true;
@@ -113,18 +112,13 @@ public class ViFile {
 	public final ObjectProperty<ViFileInfo> infoProperty() {
 		return this.info;
 	}
-	
 
 	public final xyz.openthinks.vimixer.ui.model.ViFileInfo getInfo() {
 		return this.infoProperty().get();
 	}
-	
 
 	public final void setInfo(final xyz.openthinks.vimixer.ui.model.ViFileInfo info) {
 		this.infoProperty().set(info);
 	}
-	
-
-
 
 }

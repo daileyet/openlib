@@ -15,8 +15,9 @@ import xyz.openthinks.crypto.mix.MixSegmentor;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverview;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.Figureable;
 import xyz.openthinks.vimixer.ui.model.ViFile;
+
 @XmlType
-@XmlSeeAlso({ SimpleLinearSegmentor.class,SmartLinearSegmentor.class })
+@XmlSeeAlso({ SimpleLinearSegmentor.class, SmartLinearSegmentor.class })
 public abstract class Segmentor {
 	private ObjectProperty<SegmentorType> type;
 
@@ -43,17 +44,17 @@ public abstract class Segmentor {
 
 	@Override
 	public String toString() {
-		return type.get().toString() ;
+		return type.get().toString();
 	}
-	
-	public abstract  void refresh(Segmentor otherSeg);
-	
+
+	public abstract void refresh(Segmentor otherSeg);
+
 	/**
 	 * get {@link MixSegmentor} instance
 	 * @return
 	 */
 	public abstract MixSegmentor mixSegmentor();
-	
+
 	/**
 	 * create a instance of {@link FigureOverview}
 	 * @param viFile {@link ViFile}

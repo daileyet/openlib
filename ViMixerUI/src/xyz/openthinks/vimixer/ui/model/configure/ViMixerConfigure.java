@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * configure XML file entity
  * @author minjdai
@@ -39,8 +40,7 @@ public class ViMixerConfigure {
 		this.tempSecretKey = new SimpleStringProperty();
 	}
 
-	public ViMixerConfigure(String configureName, String secretKey,
-			Segmentor segmentor) {
+	public ViMixerConfigure(String configureName, String secretKey, Segmentor segmentor) {
 		super();
 		this.configureName = new SimpleStringProperty(configureName);
 		this.secretKey = new SimpleStringProperty(secretKey);
@@ -48,7 +48,7 @@ public class ViMixerConfigure {
 		this.storedFile = new SimpleStringProperty();
 		this.tempSecretKey = new SimpleStringProperty();
 	}
-	
+
 	public final StringProperty configureNameProperty() {
 		return this.configureName;
 	}
@@ -83,25 +83,22 @@ public class ViMixerConfigure {
 		return this.segmentorProperty().get();
 	}
 
-	public final void setSegmentor(
-			final Segmentor segmentor) {
+	public final void setSegmentor(final Segmentor segmentor) {
 		this.segmentorProperty().set(segmentor);
 	}
-	
-	
 
 	@Override
 	public String toString() {
-		return "ViMixerConfigure [configureName=" + configureName
-				+ ", secretKey=" + secretKey + ", segmentor=" + segmentor + "]";
+		return "ViMixerConfigure [configureName=" + configureName + ", secretKey=" + secretKey + ", segmentor="
+				+ segmentor + "]";
 	}
 
 	/**
 	 * @throws PropertyException
 	 * @throws FileNotFoundException
 	 */
-	public static void marshal(ViMixerConfigure configure, File file)
-			throws JAXBException, PropertyException, FileNotFoundException {
+	public static void marshal(ViMixerConfigure configure, File file) throws JAXBException, PropertyException,
+			FileNotFoundException {
 		JAXBContext context = JAXBContext.newInstance(ViMixerConfigure.class);
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -140,11 +137,11 @@ public class ViMixerConfigure {
 	public final void setTempSecretKey(final java.lang.String tempSecretKey) {
 		this.tempSecretKeyProperty().set(tempSecretKey);
 	}
-	
+
 	public static void main(String[] args) throws JAXBException {
-		ViMixerConfigure configure = 
-				//ViMixerConfigure.unmarshal(new File("E:\\Cloud\\OneDrive\\Documents\\openthinks_vimixer_test.xml"));
-				ViMixerConfigure.unmarshal(new File("C:\\Users\\minjdai\\Desktop\\vimixer.xml"));
+		ViMixerConfigure configure =
+		//ViMixerConfigure.unmarshal(new File("E:\\Cloud\\OneDrive\\Documents\\openthinks_vimixer_test.xml"));
+		ViMixerConfigure.unmarshal(new File("C:\\Users\\minjdai\\Desktop\\vimixer.xml"));
 		System.out.println(configure);
 	}
 
