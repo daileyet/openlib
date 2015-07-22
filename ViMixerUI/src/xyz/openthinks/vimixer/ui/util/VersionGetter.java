@@ -18,9 +18,8 @@
  *
 * @Title: VersionGetter.java 
 * @Package xyz.openthinks.vimixer.ui.util 
-* @Description: TODO
 * @author dailey.yet@outlook.com  
-* @date 2015Äê7ÔÂ22ÈÕ
+* @date 2015/7/22
 * @version V1.0   
 */
 package xyz.openthinks.vimixer.ui.util;

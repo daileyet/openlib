@@ -18,9 +18,8 @@
  * 
  * @Title: CheckerNoPassException.java 
  * @Package exception 
- * @Description: TODO
  * @author minjdai 
- * @date 2014年10月13日
+ * @date 2014/10/13
  * @version V1.0 
  */
 package exception;
@@ -30,7 +29,6 @@ package exception;
  *
  */
 public class CheckerNoPassException extends RuntimeException {
-
 	/**
 	 * 
 	 */
@@ -40,8 +38,7 @@ public class CheckerNoPassException extends RuntimeException {
 		super();
 	}
 
-	public CheckerNoPassException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
+	public CheckerNoPassException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super();
 	}
 
@@ -49,17 +46,12 @@ public class CheckerNoPassException extends RuntimeException {
 		super(message, cause);
 	}
 
-	
-	public CheckerNoPassException(String causeMethod,String message) {
-		super("Failed on ["+causeMethod+"] checker;"+message);
+	public CheckerNoPassException(String causeMethod, String message) {
+		super("Failed on [" + causeMethod + "] checker;" + message);
 	}
-
 
 	public CheckerNoPassException(Throwable cause) {
 		super(cause);
 	}
-	
-	
-	
 
 }
