@@ -1,4 +1,4 @@
-package xyz.openthinks.vimixer.ui;
+package xyz.openthinks.vimixer;
 
 import i18n.I18n;
 import i18n.I18nApplicationLocale;
@@ -25,7 +25,14 @@ import xyz.openthinks.vimixer.ui.controller.MainFrameController;
 import xyz.openthinks.vimixer.ui.controller.RootLayoutController;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
+import xyz.openthinks.vimixer.ui.util.AppVersion;
 
+/**
+ * 
+ * @author minjdai
+ *
+ */
+@AppVersion("1.0")
 public class ViMixerApp extends Application implements Observer {
 
 	private BorderPane rootLayout;
@@ -36,7 +43,7 @@ public class ViMixerApp extends Application implements Observer {
 		I18nApplicationLocale.getInstance().addObserver(this);
 		primaryStage.getIcons().add(ResourceLoader.APP_ICON);
 		primaryStage.setTitle(I18n.getMessage(ViMixerBundles.UI, "app.title"));
-		primaryStage.setOnCloseRequest((event)->{
+		primaryStage.setOnCloseRequest((event) -> {
 			System.exit(0);
 		});
 		transfer.setPrimaryStage(primaryStage);
@@ -89,7 +96,7 @@ public class ViMixerApp extends Application implements Observer {
 			Stage stage = new Stage();
 			stage.getIcons().add(ResourceLoader.APP_ICON);
 			stage.initOwner(transfer.stage());
-			stage.setTitle(I18n.getMessage(ViMixerBundles.UI,"stage.conf.title"));
+			stage.setTitle(I18n.getMessage(ViMixerBundles.UI, "stage.conf.title"));
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.setResizable(false);
 			Scene scene = new Scene(anchorPane);
@@ -109,8 +116,9 @@ public class ViMixerApp extends Application implements Observer {
 		private final Application application;
 
 		private final ViMixerConfigure configureXML = new ViMixerConfigure();
-		
-		private final ObjectProperty<ObservableList<ViFile>> viFiles = new SimpleObjectProperty<ObservableList<ViFile>>(FXCollections.observableArrayList());
+
+		private final ObjectProperty<ObservableList<ViFile>> viFiles = new SimpleObjectProperty<ObservableList<ViFile>>(
+				FXCollections.observableArrayList());
 		private Stage primaryStage;
 
 		public TransferData(final Application application) {
@@ -138,14 +146,14 @@ public class ViMixerApp extends Application implements Observer {
 		}
 	}
 
-	private void reload(){
+	private void reload() {
 		initRootLayout();
 		showMainFrame();
 	}
-	
+
 	@Override
 	public void update(Observable o, Object newloace) {
-		transfer.stage().setTitle(I18n.getMessage(ViMixerBundles.UI,"app.title"));
+		transfer.stage().setTitle(I18n.getMessage(ViMixerBundles.UI, "app.title"));
 		reload();
 	}
 

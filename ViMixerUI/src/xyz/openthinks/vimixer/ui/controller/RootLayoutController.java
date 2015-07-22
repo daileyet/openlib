@@ -15,10 +15,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.RadioMenuItem;
 import javafx.stage.FileChooser;
+import xyz.openthinks.vimixer.ViMixerApp;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
-import xyz.openthinks.vimixer.ui.ViMixerApp;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileSupportType;
+import xyz.openthinks.vimixer.ui.util.VersionGetter;
 
 public class RootLayoutController extends BaseController {
 	
@@ -112,7 +113,8 @@ public class RootLayoutController extends BaseController {
 		Alert alert =new Alert(AlertType.INFORMATION);
 		alert.setTitle(getBundleMessage("app.title"));
 		alert.setHeaderText(getBundleMessage("about.alert.header"));
-		alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "about.alert.content", "1.0","Dailey Dai","http://openthinks.xyz"));
+		String version  = VersionGetter.valueOf(ViMixerApp.class).get();
+		alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "about.alert.content", version,"Dailey Dai","http://openthinks.xyz"));
 		alert.initOwner(this.stage());
 		alert.showAndWait();
 	}

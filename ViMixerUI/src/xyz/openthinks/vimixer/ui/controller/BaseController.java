@@ -23,9 +23,9 @@ import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBException;
 
+import xyz.openthinks.vimixer.ViMixerApp;
+import xyz.openthinks.vimixer.ViMixerApp.TransferData;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
-import xyz.openthinks.vimixer.ui.ViMixerApp;
-import xyz.openthinks.vimixer.ui.ViMixerApp.TransferData;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.configure.ViMixerConfigure;
 
