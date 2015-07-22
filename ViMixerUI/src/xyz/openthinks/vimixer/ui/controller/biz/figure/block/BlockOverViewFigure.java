@@ -6,6 +6,7 @@ import javafx.scene.shape.Shape;
 import xyz.openthinks.crypto.mix.MixBlock;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverview;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverviewPool;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileInfo;
 
@@ -15,7 +16,6 @@ import xyz.openthinks.vimixer.ui.model.ViFileInfo;
  *
  */
 public class BlockOverViewFigure extends FigureOverview<BlocksView> {
-
 	public BlockOverViewFigure(ViFile observableItem) {
 		super(observableItem);
 	}
@@ -62,5 +62,10 @@ public class BlockOverViewFigure extends FigureOverview<BlocksView> {
 		});
 
 	}
-
+	/**
+	 * static block to register mapping
+	 */
+	static{
+		FigureOverviewPool.logFigureClass(BlockOverViewFigure.class, BlocksView.class);
+	}
 }

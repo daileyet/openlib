@@ -4,7 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public enum DynamicPaintType {
-	INITIALIZED_ALL(Color.ORANGE, 0D), PROCESSED_ALL(Color.GREEN, 1D), PROCESSED_PARTIAL(Color.GREEN, .5D);
+	INITIALIZED_ALL(Color.ORANGE, 0D), PROCESSED_ALL(Color.GREEN, 1D), PROCESSED_PARTIAL(Color.GREEN, .5D), SELECTED(
+			Color.CORNFLOWERBLUE, null);
 
 	private final Paint paint;
 	private final Double progress;

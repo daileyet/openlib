@@ -3,6 +3,7 @@ package xyz.openthinks.vimixer.ui.controller.biz.figure.progress;
 import javafx.application.Platform;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverview;
+import xyz.openthinks.vimixer.ui.controller.biz.figure.FigureOverviewPool;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 import xyz.openthinks.vimixer.ui.model.ViFileInfo;
 
@@ -51,4 +52,10 @@ public class ProgressOverViewFigure extends FigureOverview<ProgressView> {
 
 	}
 
+	/**
+	 * static block to register mapping
+	 */
+	static{
+		FigureOverviewPool.logFigureClass(ProgressOverViewFigure.class, ProgressView.class);
+	}
 }

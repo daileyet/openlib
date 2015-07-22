@@ -21,8 +21,8 @@ public abstract class FigureOverview<T extends Figureable> implements Dynamicall
 	@SuppressWarnings("unchecked")
 	public FigureOverview(ViFile observableItem) {
 		this.observable = observableItem;
-		this.figureView = (T) FigureOverviewPool.get(observableItem,
-				(Class<? extends FigureOverview<? extends Figureable>>) getClass());
+		this.figureView =  (T) FigureOverviewPool.lookup(observableItem,
+				 (Class<? extends FigureOverview<T>>) getClass());
 	}
 
 	/**
@@ -69,7 +69,7 @@ public abstract class FigureOverview<T extends Figureable> implements Dynamicall
 	 */
 	@SuppressWarnings("unchecked")
 	public void destory() {
-		T figureView = (T) FigureOverviewPool.get(observable, (Class<? extends FigureOverview<T>>) getClass());
+		T figureView = (T) FigureOverviewPool.lookup(observable, (Class<? extends FigureOverview<T>>) getClass());
 		if (figureView != null)
 			figureView.destory();
 	}
@@ -108,8 +108,8 @@ public abstract class FigureOverview<T extends Figureable> implements Dynamicall
 	public void push() {
 		FigureOverview<T> figureOverview = (FigureOverview<T>) FigureOverviewPool
 				.currentFigure((Class<? extends FigureOverview<? extends Figureable>>) getClass());
-		if (this.equals(figureOverview))
-			;// ignore the same with current instance in pool
+		if (this.equals(figureOverview) && !blockPane.getChildren().isEmpty())
+			;// ignore the same with current instance in pool and the container is not empty
 		else
 			FigureOverviewPool.push(this);
 	}

@@ -5,13 +5,11 @@ package xyz.openthinks.vimixer.ui.controller.biz.figure;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import xyz.openthinks.vimixer.ui.controller.biz.figure.block.BlockOverViewFigure;
-import xyz.openthinks.vimixer.ui.controller.biz.figure.block.BlocksView;
-import xyz.openthinks.vimixer.ui.controller.biz.figure.progress.ProgressOverViewFigure;
-import xyz.openthinks.vimixer.ui.controller.biz.figure.progress.ProgressView;
 import xyz.openthinks.vimixer.ui.model.ViFile;
 
 /**
@@ -37,7 +35,7 @@ public class FigureOverviewPool {
 	 * @param figureOverviewClz
 	 * @return {@link Figurable}
 	 */
-	public final static Figureable get(ViFile observableItem,
+	public final static Figureable lookup(ViFile observableItem,
 			Class<? extends FigureOverview<? extends Figureable>> figureOverviewClz) {
 
 		if (caches.containsKey(observableItem)) {
@@ -47,7 +45,7 @@ public class FigureOverviewPool {
 		} else {
 			caches.put(observableItem, new FigureableMap());
 		}
-		return get(observableItem, figureOverviewClz);
+		return lookup(observableItem, figureOverviewClz);
 	}
 
 	/**
@@ -132,14 +130,37 @@ public class FigureOverviewPool {
 	 */
 	private static Figureable figureableOf(Class<? extends FigureOverview<? extends Figureable>> figureOverviewClz) {
 		Figureable figureable = null;
-		if (figureOverviewClz == BlockOverViewFigure.class) {
-			figureable = new BlocksView();
-		} else if (figureOverviewClz == ProgressOverViewFigure.class) {
-			figureable = new ProgressView();
-		} else {
+		
+		Class<? extends Figureable> figureableClazz = figureClazzMap.get(figureOverviewClz);
+		if(figureableClazz==null){
 			throw new UnsupportFigureOverview("Not suuport this class type:" + figureOverviewClz);
 		}
+		try {
+			figureable = figureableClazz.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		return figureable;
+	}
+
+	// store the mapping between FigureOverview and Figureable
+	private static final ObservableMap<Class<? extends FigureOverview<? extends Figureable>>, Class<? extends Figureable>> figureClazzMap = FXCollections
+			.observableHashMap();
+	private static final Lock lock = new ReentrantLock();
+	public static final void logFigureClass(Class<? extends FigureOverview<? extends Figureable>> figureOverviewClazz,
+			Class<? extends Figureable> figureableClazz) {
+		lock.lock();
+		try{
+		if (figureClazzMap.containsKey(figureOverviewClazz))
+			;
+		else
+			figureClazzMap.put((Class<? extends FigureOverview<? extends Figureable>>) figureOverviewClazz,
+					figureableClazz);
+		}finally{
+			lock.unlock();
+		}
 	}
 
 	// as the value in caches; ViFile <-> FigureableMap

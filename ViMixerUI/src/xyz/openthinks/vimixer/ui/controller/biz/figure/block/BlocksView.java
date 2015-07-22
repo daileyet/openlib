@@ -1,7 +1,11 @@
 package xyz.openthinks.vimixer.ui.controller.biz.figure.block;
 
 import static xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType.INITIALIZED_ALL;
+import i18n.I18n;
+import i18n.I18nApplicationLocale;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Node;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -16,7 +21,9 @@ import javafx.scene.shape.Shape;
 import xyz.openthinks.crypto.mix.MixBlock;
 import xyz.openthinks.crypto.mix.MixBlocks;
 import xyz.openthinks.crypto.mix.MixTarget;
+import xyz.openthinks.crypto.mix.Segment;
 import xyz.openthinks.crypto.mix.impl.MixFile;
+import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.BaseController;
 import xyz.openthinks.vimixer.ui.controller.MainFrameController;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
@@ -30,18 +37,24 @@ import xyz.openthinks.vimixer.ui.model.configure.Segmentor;
  * @author minjdai
  *
  */
-public class BlocksView extends FlowPane implements Figureable {
+public class BlocksView extends FlowPane implements Figureable,Observer {
 	private int block_width = 10, block_height = 10;
 	private int block_arc_width = 3, block_arc_height = 3;
 	private AtomicBoolean initailized = new AtomicBoolean(false);
+	private Tooltip tooltip = new Tooltip();
 	private Lock lock = new ReentrantLock();
 	// store the  mapping between block unit in file and block unit in UI
 	private ObservableMap<MixBlock, Shape> map = FXCollections.observableHashMap();
-
+	
+	public BlocksView() {
+		I18nApplicationLocale.getInstance().addObserver(this);
+	}
+	
 	public boolean isInitialized() {
 		return initailized.get();
 	}
-
+	
+	private Rectangle lastAccessed;
 	public void initial(ViFile observable, BaseController controller) {
 		lock.lock();
 		try {
@@ -50,12 +63,30 @@ public class BlocksView extends FlowPane implements Figureable {
 			Segmentor segmentor = controller.configure().getSegmentor();
 			MixTarget mixTarget = new MixFile(observable.getFile(), segmentor.mixSegmentor());
 			MixBlocks mixBlocks = mixTarget.blocks();
-			for (int i = 0; i < mixBlocks.size(); i++) {
+			for (MixBlock mixBlock:mixBlocks) {
 				Rectangle ret = new Rectangle(block_width, block_height, paintType.color());
 				ret.setArcWidth(block_arc_width);
 				ret.setArcHeight(block_arc_height);
+				ret.setOpacity(.8);
+				ret.setUserData(mixBlock.getSegment());
+				ret.setOnMouseClicked((event)->{
+					Rectangle source = ((Rectangle)event.getSource());
+					if(source==lastAccessed){//ignore selected same block
+						return;
+					}
+					if(lastAccessed!=null){
+						lastAccessed.setFill(observable.getStatus().paintType().color());
+						Tooltip.uninstall(lastAccessed, tooltip);
+					}
+					lastAccessed = source;
+					lastAccessed.setFill(DynamicPaintType.SELECTED.color());
+					Segment segment = (Segment) lastAccessed.getUserData();
+					setToolTipText(segment);
+					Tooltip.install(lastAccessed, tooltip);
+				});
+				
 				this.getChildren().add(ret);
-				map.put(mixBlocks.get(i), ret);
+				map.put(mixBlock, ret);
 			}
 			initailized.set(true);
 			this.setCache(true);
@@ -64,6 +95,14 @@ public class BlocksView extends FlowPane implements Figureable {
 		} finally {
 			lock.unlock();
 		}
+	}
+
+	/**
+	 * @param segment
+	 */
+	private void setToolTipText(Segment segment) {
+		String tip = I18n.getMessage(ViMixerBundles.UI, "tooltip.block.segment", segment.getPosition(),segment.getLength());
+		tooltip.setText(tip);
 	}
 
 	/**
@@ -142,6 +181,17 @@ public class BlocksView extends FlowPane implements Figureable {
 			((Pane) this.getParent()).getChildren().remove(this);
 		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
+	@Override
+	public void update(Observable o, Object newloacle) {
+		if(lastAccessed!=null){
+			Segment segment = (Segment) lastAccessed.getUserData();
+			setToolTipText(segment);
+		}
 	}
 
 }
