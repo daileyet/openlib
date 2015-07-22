@@ -13,6 +13,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioMenuItem;
 import javafx.stage.FileChooser;
 import xyz.openthinks.vimixer.ViMixerApp;
@@ -56,6 +58,7 @@ public class RootLayoutController extends BaseController {
 		FileChooser.ExtensionFilter extensionFilter2 = new FileChooser.ExtensionFilter("image files",
 				ViFileSupportType.SUPPORT_LIST_IMAGE);
 		fileChooser.getExtensionFilters().addAll(extensionFilter1, extensionFilter2);
+		fileChooser.setTitle(I18n.getMessage(ViMixerBundles.UI, "dialog.open.title"));//overrider its title
 		List<File> files = fileChooser.showOpenMultipleDialog(this.stage());
 		if (files != null) {
 			for (File file : files) {
@@ -90,6 +93,7 @@ public class RootLayoutController extends BaseController {
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
+		fileChooser.setTitle(I18n.getMessage(ViMixerBundles.UI, "dialog.save.title"));//overrider its title
 		File file = fileChooser.showSaveDialog(this.stage());
 		this.saveConfigure(file);
 	}
@@ -100,18 +104,21 @@ public class RootLayoutController extends BaseController {
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
+		fileChooser.setTitle(I18n.getMessage(ViMixerBundles.UI, "dialog.open.title"));//overrider its title
 		File file = fileChooser.showOpenDialog(this.stage());
 		this.loadConfigure(file);
 	}
 
 	@FXML
 	private void handAbout() {
-		Alert alert = new Alert(AlertType.INFORMATION);
+		String buttonText = I18n.getMessage(ViMixerBundles.UI, "about.alert.button.ok");
+		ButtonType customerButton = new ButtonType(buttonText, ButtonData.OK_DONE);//overrider its default button
+		String version = VersionGetter.valueOf(ViMixerApp.class).get();
+		String alertContent = I18n.getMessage(ViMixerBundles.UI, "about.alert.content", version, "Dailey Dai",
+				"http://openthinks.xyz");
+		Alert alert = new Alert(AlertType.INFORMATION, alertContent, customerButton);
 		alert.setTitle(getBundleMessage("app.title"));
 		alert.setHeaderText(getBundleMessage("about.alert.header"));
-		String version = VersionGetter.valueOf(ViMixerApp.class).get();
-		alert.setContentText(I18n.getMessage(ViMixerBundles.UI, "about.alert.content", version, "Dailey Dai",
-				"http://openthinks.xyz"));
 		alert.initOwner(this.stage());
 		alert.showAndWait();
 	}
