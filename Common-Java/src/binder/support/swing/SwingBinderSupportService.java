@@ -73,6 +73,7 @@ public class SwingBinderSupportService implements BinderSupportService {
 	 * binder.BinderSupportService#createListableComponentSupport(java.lang.
 	 * Object, java.lang.Object[])
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public ComponentSupport createListableComponentSupport(Object component, Object[] optionals) {
 		ComponentSupport componentSupport = null;

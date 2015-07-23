@@ -1,14 +1,13 @@
 package xyz.openthinks.vimixer.ui.controller;
 
-import i18n.I18n;
-import i18n.I18nApplicationLocale;
-
 import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import openthinks.libs.i18n.I18n;
+import openthinks.libs.i18n.I18nApplicationLocale;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

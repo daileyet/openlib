@@ -1,10 +1,9 @@
 package xyz.openthinks.vimixer.ui.model.configure;
 
-import i18n.I18n;
-
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+import openthinks.libs.i18n.I18n;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 
 @XmlType

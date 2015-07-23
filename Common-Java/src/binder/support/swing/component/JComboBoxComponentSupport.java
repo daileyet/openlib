@@ -6,6 +6,7 @@ import java.awt.event.FocusEvent;
 
 import javax.swing.JComboBox;
 
+@SuppressWarnings("rawtypes")
 public class JComboBoxComponentSupport extends AbstractListFocusableComponentSupport<JComboBox> implements
 		ActionListener {
 
@@ -14,6 +15,7 @@ public class JComboBoxComponentSupport extends AbstractListFocusableComponentSup
 		init(getOptions());
 	}
 
+	@SuppressWarnings("unchecked")
 	private void init(Object[] optionals) {
 		if (optionals != null) {
 			for (Object object : optionals) {

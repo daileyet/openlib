@@ -1,6 +1,6 @@
 package xyz.openthinks.vimixer.ui.model;
 
-import i18n.I18n;
+import openthinks.libs.i18n.I18n;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;
 import xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType;
 

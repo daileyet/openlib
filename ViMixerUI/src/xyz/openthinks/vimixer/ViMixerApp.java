@@ -1,12 +1,11 @@
 package xyz.openthinks.vimixer;
 
-import i18n.I18n;
-import i18n.I18nApplicationLocale;
-
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import openthinks.libs.i18n.I18n;
+import openthinks.libs.i18n.I18nApplicationLocale;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

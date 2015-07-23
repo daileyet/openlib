@@ -42,32 +42,10 @@ public final class I18n {
 
 	private static IMessageContext messageContext = null;
 	private static Lock lock = new ReentrantLock();
-	private I18n(){}
-	
-	public static ResourceBundle getResourceBundle(String packName, Locale locale){
-		return ResourceBundle.getBundle(packName, locale);
+
+	private I18n() {
 	}
-	
-	public static ResourceBundle getResourceBundle(String packName){
-		return ResourceBundle.getBundle(packName, I18nApplicationLocale.getInstance().getCurrentLocale());
-	}
-	
-	public static <T extends IMessage> ResourceBundle getResourceBundle(Class<T> entityClazz, Locale locale){
-		return ResourceBundle.getBundle(entityClazz.getName(), locale);
-	}
-	
-	public static <T extends IMessage> ResourceBundle getResourceBundle(Class<T> entityClazz){
-		return ResourceBundle.getBundle(entityClazz.getName(), I18nApplicationLocale.getInstance().getCurrentLocale());
-	}
-	
-	public static ResourceBundle getResourceBundle(IBundleMessageType messageType, Locale locale){
-		return ResourceBundle.getBundle(messageType.getPackName(), locale);
-	}
-	
-	public static ResourceBundle getResourceBundle(IBundleMessageType messageType){
-		return ResourceBundle.getBundle(messageType.getPackName(), I18nApplicationLocale.getInstance().getCurrentLocale());
-	}
-	
+
 	/**
 	 * get message by message pack/persist name,locale,message id and arguments.
 	 * @param packName String message pack/persist name
@@ -142,6 +120,34 @@ public final class I18n {
 	 */
 	public static String getMessage(IMessageType messageType, String messageId, Object... args) {
 		return getMessage(messageType, I18nApplicationLocale.getInstance().getCurrentLocale(), messageId, args);
+	}
+
+	public static ResourceBundle getResourceBundle(String packName, Locale locale) {
+		return ResourceBundle.getBundle(packName, locale);
+	}
+
+	public static ResourceBundle getResourceBundle(String packName) {
+		return ResourceBundle.getBundle(packName, I18nApplicationLocale.getInstance().getCurrentLocale());
+	}
+
+	/**
+	 * get {@link ResourceBundle} instance by the instance of {@link IBundleMessageType} and the special {@link Locale}
+	 * @param messageType {@link IBundleMessageType}
+	 * @param locale {@link Locale}
+	 * @return {@link ResourceBundle} the final i18n resource bundle for the special locale
+	 */
+	public static ResourceBundle getResourceBundle(IBundleMessageType messageType, Locale locale) {
+		return ResourceBundle.getBundle(messageType.getPackName(), locale);
+	}
+
+	/**
+	 * get {@link ResourceBundle} instance by the instance of {@link IBundleMessageType} and the default/current locale maintain by {@link I18nApplicationLocale}
+	 * @param messageType {@link IBundleMessageType}
+	 * @return	{@link ResourceBundle} the final i18n resource bundle for the default/current locale maintain by {@link I18nApplicationLocale}
+	 */
+	public static ResourceBundle getResourceBundle(IBundleMessageType messageType) {
+		return ResourceBundle.getBundle(messageType.getPackName(), I18nApplicationLocale.getInstance()
+				.getCurrentLocale());
 	}
 
 	/**

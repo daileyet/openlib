@@ -3,9 +3,6 @@
  */
 package xyz.openthinks.vimixer.ui.controller;
 
-import i18n.I18n;
-import i18n.I18nApplicationLocale;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -23,6 +20,8 @@ import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBException;
 
+import openthinks.libs.i18n.I18n;
+import openthinks.libs.i18n.I18nApplicationLocale;
 import xyz.openthinks.vimixer.ViMixerApp;
 import xyz.openthinks.vimixer.ViMixerApp.TransferData;
 import xyz.openthinks.vimixer.resources.bundles.ViMixerBundles;

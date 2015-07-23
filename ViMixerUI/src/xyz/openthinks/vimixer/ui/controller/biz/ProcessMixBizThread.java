@@ -2,7 +2,7 @@ package xyz.openthinks.vimixer.ui.controller.biz;
 
 import java.util.Date;
 
-import i18n.I18n;
+import openthinks.libs.i18n.I18n;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

@@ -1,8 +1,6 @@
 package xyz.openthinks.vimixer.ui.controller.biz.figure.block;
 
 import static xyz.openthinks.vimixer.ui.controller.biz.figure.DynamicPaintType.INITIALIZED_ALL;
-import i18n.I18n;
-import i18n.I18nApplicationLocale;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -10,6 +8,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import openthinks.libs.i18n.I18n;
+import openthinks.libs.i18n.I18nApplicationLocale;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.Node;

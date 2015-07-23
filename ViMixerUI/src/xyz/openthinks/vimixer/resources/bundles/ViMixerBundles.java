@@ -1,6 +1,6 @@
 package xyz.openthinks.vimixer.resources.bundles;
 
-import i18n.implement.bundle.IBundleMessageType;
+import openthinks.libs.i18n.implement.bundle.IBundleMessageType;
 
 public enum ViMixerBundles implements IBundleMessageType {
 	UI, LOG, MODEL;
