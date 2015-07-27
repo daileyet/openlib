@@ -3,8 +3,8 @@
 	<target name="init-fx-tasks">
 		<path id="fxant">
 			<filelist>
-				<file name="C:\Program Files\Java\jdk1.8.0_45\lib\ant-javafx.jar"/>
-				<file name="C:\Program Files\Java\jdk1.8.0_45\jre\lib\ext\jfxrt.jar"/>
+				<file name="C:\Program Files\Java\jdk1.8.0_51\lib\ant-javafx.jar"/>
+				<file name="C:\Program Files\Java\jre1.8.0_51\lib\extjfxrt.jar"/>
 			</filelist>
 		</path>
 	
@@ -19,33 +19,33 @@
 	
 		<mkdir dir="externalLibs" />
 	
+		<copy todir="externalLibs">
+			<fileset dir="R:\MyGit\openlib\ViMixerUI\lib">
+				<filename name="openlibs.i18n.jar"/>
+			</fileset>
+		</copy>
 	
 		<mkdir dir="project" />
 		<copy todir="project">
 			<fileset dir="R:\MyGit\openlib\ViMixerUI">
-				<include name="test/**" />
+				<include name="src/**" />
 			</fileset>
 		</copy>
 		<copy todir="project">
 			<fileset dir="R:\MyGit\openlib\ViMixerUI">
-				<include name="src/**" />
+				<include name="test/**" />
 			</fileset>
 		</copy>
 	
 		<mkdir dir="projectRefs" />
 		<copy todir="projectRefs">
 			<fileset dir="R:\MyGit\openlib">
-				<include name="ViMixer\test/**" />
-			</fileset>
-		</copy>
-		<copy todir="projectRefs">
-			<fileset dir="R:\MyGit\openlib">
-				<include name="I18n\src/**" />
-			</fileset>
-		</copy>
-		<copy todir="projectRefs">
-			<fileset dir="R:\MyGit\openlib">
 				<include name="ViMixer\src/**" />
+			</fileset>
+		</copy>
+		<copy todir="projectRefs">
+			<fileset dir="R:\MyGit\openlib">
+				<include name="ViMixer\test/**" />
 			</fileset>
 		</copy>
 	</target>
@@ -58,17 +58,13 @@
 		<!-- Copy project-libs references -->
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
+				<include name="openlibs.i18n.jar"/>
 			</fileset>
 		</copy>
 	
 		<!-- Copy project references -->
 		<copy todir="build/src">
 			<fileset dir="projectRefs/ViMixer/test">
-				<include name="**/*"/>
-			</fileset>
-		</copy>
-		<copy todir="build/src">
-			<fileset dir="projectRefs/I18n/src">
 				<include name="**/*"/>
 			</fileset>
 		</copy>
@@ -90,7 +86,7 @@
 			</fileset>
 		</copy>
 	
-		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="build/src" destdir="build/classes" encoding="UTF-8">
+		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="build/src" destdir="build/classes" encoding="GBK">
 			<classpath>
 				<fileset dir="build/libs">
 					<include name="*"/>
@@ -110,11 +106,6 @@
 	
 		<copy todir="build/classes">
 			<fileset dir="projectRefs/ViMixer/test">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-		<copy todir="build/classes">
-			<fileset dir="projectRefs/I18n/src">
 				<exclude name="**/*.java"/>
 			</fileset>
 		</copy>
@@ -180,7 +171,7 @@
 			outfile="ViMixerUI" nativeBundles="exe"
 			updatemode="background" >
 	
-			<fx:platform basedir="C:\Program Files\Java\jdk1.8.0_45"/>
+			<fx:platform basedir="C:\Program Files\Java\jdk1.8.0_51"/>
 			<fx:info title="ViMixerUI" vendor="dailey.yet@outlook.com"/>
 	
 			<fx:application refId="fxApplication"/>
