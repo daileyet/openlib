@@ -1,7 +1,7 @@
 # openlib-base
 My common lib include the original sub libs:sql,i18n,utitlies,binders,validation code and vimixer.
 
-Current now, all the following libs are extracted as seprated project with helper doc.
+Current now, all the following libs are extracted as seprated project with well format doc.
 
 > 1. **[validation code][1]**  *2010/06*
 > 2. **[sql][2]** 
